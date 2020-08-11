@@ -1,0 +1,78 @@
+{{define "system"}}
+    {{template "header" .}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script >
+        function update_cmd(cmd) {
+
+            val = document.getElementById("vending-"+cmd+"-input").value
+
+            console.log(val)
+            console.log(document.getElementById("vending-"+cmd+"-input"))
+            $.post("/system_cmd",
+                {
+                    name: "post_cmd",
+                    cmd: cmd,
+                    value: val
+                },
+                function(data,status){
+                    console.log("Status: " + status);
+                });
+        }
+    </script>
+
+    <div class="content">
+        <h2>System Setup</h2>
+        <div>This is the System Setup page</div>
+
+        <div class="form-group row align-items-center my-0">
+            <label class="col-sm-3 col-form-label text-right">PROTO</label>
+            <div class="input-group col-sm-8">
+                <input type="text" class="form-control" id="vending-proto-input" placeholder="PROTO" value="{{ .Proto }}" {{ if .Mode }}disabled{{ end }}>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-proto-button" type="button" onclick="update_cmd('proto')" {{ if .Mode }}disabled{{ end }}>Update</button>
+                </div>
+            </div>
+            <div class="w-100">
+                <hr my-0>
+            </div>
+        </div>
+        <div class="form-group row align-items-center my-0">
+            <label class="col-sm-3 col-form-label text-right">IMEI</label>
+            <div class="input-group col-sm-8">
+                <input type="text" class="form-control" id="vending-imei-input" value="{{ .Imei }}" {{ if .Mode }}disabled{{ end }}>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-imei-button" type="button" onclick="update_cmd('imei')" {{ if .Mode }}disabled{{ end }}>Update</button>
+                </div>
+            </div>
+            <div class="w-100">
+                <hr my-0>
+            </div>
+        </div>
+        <div class="form-group row align-items-center my-0">
+            <label class="col-sm-3 col-form-label text-right">Notification Group ID</label>
+            <div class="input-group col-sm-8">
+                <input type="text" class="form-control" id="vending-notify-input" value="{{ .NotifyId }}" {{ if .Mode }}disabled{{ end }}>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-notify-button" type="button" onclick="update_cmd('notify')" {{ if .Mode }}disabled{{ end }}>Update</button>
+                </div>
+            </div>
+            <div class="w-100">
+                <hr my-0>
+            </div>
+        </div>
+        <div class="form-group row align-items-center my-0">
+            <label class="col-sm-3 col-form-label text-right">Board ID</label>
+            <div class="input-group col-sm-8">
+                <input type="text" class="form-control" id="vending-address-input" placeholder="1" value="{{ .BoardAddress }}" {{ if .Mode }}disabled{{ end }}>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-address-button" type="button" onclick="update_cmd('address')" {{ if .Mode }}disabled{{ end }}>Update</button>
+                </div>
+            </div>
+            <div class="w-100">
+                <hr my-0>
+            </div>
+        </div>
+
+    </div>
+    {{template "footer" .}}
+{{end}}

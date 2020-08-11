@@ -1,0 +1,474 @@
+{{define "board"}}
+    {{template "header" .}}
+    <div class="content">
+        <h2>Board Setup</h2>
+        <div>This is the Board Setup page</div>
+        {{if .Mode}}
+            <h5 style="color: crimson">Board is not in service mode</h5>
+        {{end}}
+        {{ with .Success }}
+            <p class="error" >{{ . }}</p>
+        {{ end}}
+        <form action="outs", method="post">
+            <div class="row">
+            <div class="col-12 text-center">
+                <button class="btn btn-danger vending-pouring-settings" id="pouring-save-button" type="submit" {{ if .Mode }}disabled{{ end }}>Сохранить</button>
+                <input type="checkbox" class="btn btn-info vending-valve" name="valve_product" value="1"{{ if .Outs.ValveProduct }} checked {{end}} {{ if .Mode }}disabled{{ end }}>Продукт</input>
+                <input type="checkbox" class="btn btn-info vending-valve" name="valve_holder" value="1"{{ if .Outs.ValveHolder }} checked {{end}} {{ if .Mode }}disabled{{ end }}>Прижим</input>
+                <input type="checkbox" class="btn btn-info vending-valve" name="valve_lock" value="1"{{ if .Outs.ValveLock }} checked {{end}} {{ if .Mode }}disabled{{ end }}>Шторка</input>
+                <input type="checkbox" class="btn btn-info vending-valve" name="valve_co2" value="1"{{ if .Outs.ValveCo2 }} checked {{end}} {{ if .Mode }}disabled{{ end }}>Подача СО<sub>2</sub></input>
+                <input type="checkbox" class="btn btn-info vending-valve" name="valve_carbonation" value="1"{{ if .Outs.ValveCarbonation }} checked {{end}} {{ if .Mode }}disabled{{ end }}>Карбонизация</input>
+                <input type="checkbox" class="btn btn-info vending-valve" name="valve_water" value="1"{{ if .Outs.ValveWater }} checked {{end}} {{ if .Mode }}disabled{{ end }}>Вода</input>
+                <input type="checkbox" class="btn btn-info vending-valve" name="valve_drainage" value="1" {{ if .Outs.ValveDrainage }} checked {{end}} {{ if .Mode }}disabled{{ end }}>Дренаж</input>
+            </div>
+            <div class="w-100">
+                <hr my-1>
+            </div>
+        </div>
+        </form>
+
+
+        <form action="filling" method="post">
+        <div class="row align-items-center">
+            <div class="col-sm-3 text-right">
+                <button class="btn btn-danger vending-pouring-settings" id="pouring-save-button" type="submit" {{ if .Mode }}disabled{{ end }}>Сохранить</button>
+            </div>
+            <div class="col-sm-8">
+                <h5><strong>Настройки налива</strong></h5>
+                <hr>
+            </div>
+            <div class="w-100 mt-1"></div>
+            <div class="col-3"></div>
+            <div class="col-2">Объем 0.5 л.</div>
+            <div class="col-2">Объем 1 л.</div>
+            <div class="col-2">Объем 1.5 л.</div>
+            <div class="col-2">Объем 2 л.</div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-3 col-form-label text-right">Импульсы</label>
+            <div class="col-sm-2">
+                {{ with .Errors.ImpulsesV1 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume1.impulses" value="{{.Data.Volume1.Impulses}}" {{ if .Mode }}disabled{{ end }} >
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.ImpulsesV2 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume2.impulses" value="{{.Data.Volume2.Impulses}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.ImpulsesV3 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume3.impulses" value="{{.Data.Volume3.Impulses}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.ImpulsesV4 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume4.impulses" value="{{.Data.Volume4.Impulses}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-3 col-form-label text-right">Начальное давление</label>
+            <div class="col-sm-2">
+                {{ with .Errors.StartPressureV1 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume1.start_pressure" value="{{.Data.Volume1.StartPressure}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.StartPressureV2 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume2.start_pressure" value="{{.Data.Volume2.StartPressure}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.StartPressureV3 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume3.start_pressure" value="{{.Data.Volume3.StartPressure}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.StartPressureV4 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume4.start_pressure" value="{{.Data.Volume4.StartPressure}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-3 col-form-label text-right">Время открытия 1</label>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainTime1V1 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume1.drain_time_1"  value="{{.Data.Volume1.DrainTime1}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainTime1V2 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume2.drain_time_1" value="{{.Data.Volume2.DrainTime1}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainTime1V3 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume3.drain_time_1" value="{{.Data.Volume3.DrainTime1}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainTime1V4 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume4.drain_time_1" value="{{.Data.Volume4.DrainTime1}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-3 col-form-label text-right">Давление 1</label>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainPressure1V1 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume1.drain_pressure_1" value="{{.Data.Volume1.DrainPressure1}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainPressure1V2 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume2.drain_pressure_1" value="{{.Data.Volume2.DrainPressure1}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainPressure1V3 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume3.drain_pressure_1" value="{{.Data.Volume3.DrainPressure1}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainPressure1V4 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume4.drain_pressure_1" value="{{.Data.Volume4.DrainPressure1}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-3 col-form-label text-right">Время открытия 2</label>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainTime2V1 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume1.drain_time_2" value="{{.Data.Volume1.DrainTime2}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainTime2V2 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume2.drain_time_2" value="{{.Data.Volume2.DrainTime2}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainTime2V3 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume3.drain_time_2" value="{{.Data.Volume3.DrainTime2}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainTime2V4 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume4.drain_time_2" value="{{.Data.Volume4.DrainTime2}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-3 col-form-label text-right">Давление 2</label>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainPressure2V1 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume1.drain_pressure_2" value="{{.Data.Volume1.DrainPressure2}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainPressure2V2 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume2.drain_pressure_2" value="{{.Data.Volume2.DrainPressure2}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainPressure2V3 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume3.drain_pressure_2" value="{{.Data.Volume3.DrainPressure2}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.DrainPressure2V4 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume4.drain_pressure_2"value="{{.Data.Volume4.DrainPressure2}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-3 col-form-label text-right">Переключение циклов</label>
+            <div class="col-sm-2">
+                {{ with .Errors.CycleSwitchV1 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume1.cycle_switch" value="{{.Data.Volume1.CycleSwitch}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.CycleSwitchV2 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume2.cycle_switch" value="{{.Data.Volume2.CycleSwitch}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.CycleSwitchV3 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume3.cycle_switch" value="{{.Data.Volume3.CycleSwitch}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.CycleSwitchV4 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume4.cycle_switch" value="{{.Data.Volume4.CycleSwitch}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-3 col-form-label text-right">Макс. время налива</label>
+            <div class="col-sm-2">
+                {{ with .Errors.MaxTimeV1 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume1.max_time" value="{{.Data.Volume1.MaxTime}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.MaxTimeV2 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume2.max_time" value="{{.Data.Volume2.MaxTime}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.MaxTimeV3 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume3.max_time" value="{{.Data.Volume3.MaxTime}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="col-sm-2">
+                {{ with .Errors.MaxTimeV4 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="volume4.max_time" value="{{.Data.Volume4.MaxTime}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-4 col-form-label text-right">Цикл сброса после налива</label>
+            <div class="col-sm-2">
+                {{ with .Errors.ReleaseDuration }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="release_period" value="{{.Data.ReleaseDuration}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-4 col-form-label text-right">Время открытия после налива</label>
+            <div class="col-sm-2">
+                {{ with .Errors.ReleasePeriod }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="release_duration"  value="{{.Data.ReleasePeriod}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+        </div>
+        <div class="form-group row align-items-center my-1">
+            <label class="col-sm-4 col-form-label text-right">Дельта давления кеги</label>
+            <div class="col-sm-2">
+                {{ with .Errors.KegPressureDelta }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-pouring-settings" name="keg_pressure_delta"  value="{{.Data.KegPressureDelta}}" {{ if .Mode }}disabled{{ end }}>
+            </div>
+            <div class="w-100">
+                <hr my-0>
+            </div>
+        </div>
+        </form>
+
+
+        <form action="tare" method="post">
+            <div class="row align-items-center my-0">
+                <div class="col-sm-3 text-right">
+                    <button class="btn btn-danger vending-tare-detection-settings" id="tare-detection-save-button" type="submit" {{ if .Mode }}disabled{{ end }}>Сохранить</button>
+                </div>
+                <div class="col-sm-8">
+                    <h5><strong>Настройки определения объема</strong></h5>
+                    <hr>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-5 col-form-label text-right">Давление налачия объема</label>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareMinPressure }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_min_pressure" value="{{.Tare.TareMinPressure}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-5 col-form-label text-right">Время определения тары</label>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareDetectionTime }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_detection_time"  value="{{.Tare.TareDetectionTime}}"  {{ if .Mode }}disabled{{ end }}>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-5 col-form-label text-right">Давление при определении объема</label>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareMaxPressure }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_max_pressure"  value="{{.Tare.TareMaxPressure}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-5 col-form-label text-right">Дельта пределов</label>
+                <div class="col-sm-2">
+                    {{ with .Errors.TarePressureDelta }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_pressure_delta"  value="{{.Tare.TarePressureDelta}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <div class="col-sm-3"></div>
+                <label class="col-sm-2 col-form-label">Минимум</label>
+                <div class="col-sm-4"></div>
+                <label class="col-sm-2 col-form-label">Максимум</label>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareVol1Min }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_vol1_min"  value="{{.Tare.TareVol1Min}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <label class="col-sm-4 col-form-label text-center">Пределы для объема 0.5 л.</label>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareVol1Max }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_vol1_max"  value="{{.Tare.TareVol1Max}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareVol2Min }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_vol2_min" value="{{.Tare.TareVol2Min}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <label class="col-sm-4 col-form-label text-center">Пределы для объема 1 л.</label>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareVol2Max }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_vol2_max" value="{{.Tare.TareVol2Max}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareVol3Min }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_vol3_min" value="{{.Tare.TareVol3Min}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <label class="col-sm-4 col-form-label text-center">Пределы для объема 1.5 л.</label>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareVol3Max }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_vol3_max" value="{{.Tare.TareVol3Max}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+            </div>
+            <div class="form-group row align-items-center my-1">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareVol4Min }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_vol4_min" value="{{.Tare.TareVol4Min}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <label class="col-sm-4 col-form-label text-center">Пределы для объема 2 л.</label>
+                <div class="col-sm-2">
+                    {{ with .Errors.TareVol4Max }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-tare-detection-settings" name="tare_vol4_max" value="{{.Tare.TareVol4Max}}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+        </form>
+
+        <form action="sanitize" method="post">
+            <div class="row align-items-center my-0">
+                <div class="col-sm-3 text-right">
+                    <button class="btn btn-danger vending-cleaning-settings" id="cleaning-save-button" type="submit" {{ if .Mode }}disabled{{ end }}>Сохранить</button>
+                </div>
+                <div class="col-sm-8">
+                    <h5><strong>Настройки санитации</strong></h5>
+                    <hr>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-5 col-form-label text-right">1. Вода</label>
+                <div class="col-sm-2">
+                    <select class="form-control vending-cleaning-settings" name="cleaning_water_1_vol" {{ if .Mode }}disabled{{ end }}>
+                        {{ range .STempl }}
+                            <option value="{{ .Value }}" {{ if eq .Value $.Sanitize.CleaningWater1 }}selected="selected"{{ end }}>{{ .Text }}</option>
+                        {{ end }}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-5 col-form-label text-right">2. Раствор</label>
+                <div class="col-sm-2">
+                    <select class="form-control vending-cleaning-settings" name="cleaning_detergent_2_vol" {{ if .Mode }}disabled{{ end }}>
+                        {{ range .STempl }}
+                            <option value="{{ .Value }}" {{ if eq .Value $.Sanitize.CleaningDetergent }}selected="selected"{{ end }}>{{ .Text }}</option>
+                        {{ end }}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-5 col-form-label text-right">3. Вода</label>
+                <div class="col-sm-2">
+                    <select class="form-control vending-cleaning-settings" name="cleaning_water_3_vol" {{ if .Mode }}disabled{{ end }}>
+                        {{ range .STempl }}
+                            <option value="{{ .Value }}" {{ if eq .Value $.Sanitize.CleaningWater2 }}selected="selected"{{ end }}>{{ .Text }}</option>
+                        {{ end }}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-5 col-form-label text-right">4. Продукт</label>
+                <div class="col-sm-2">
+                    <select class="form-control vending-cleaning-settings" name="cleaning_product_4_vol" {{ if .Mode }}disabled{{ end }}>
+                        {{ range .STempl }}
+                            <option value="{{ .Value }}" {{ if eq .Value $.Sanitize.CleaningProduct }}selected="selected"{{ end }}>{{ .Text }}</option>
+                        {{ end }}
+                    </select>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    {{template "footer" .}}
+{{end}}

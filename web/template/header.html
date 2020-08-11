@@ -1,0 +1,48 @@
+{{define "header"}}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>{{.Title}}</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+        <style type="text/css">
+            body {padding-bottom: 70px;}
+            .content {margin:10px;}
+             table {
+                 width: 100%; /* Ширина таблицы */
+                 border: 4px double black; /* Рамка вокруг таблицы */
+                 border-collapse: collapse; /* Отображать только одинарные линии */
+             }
+            th {
+                text-align: left; /* Выравнивание по левому краю */
+                background: #ccc; /* Цвет фона ячеек */
+                padding: 5px; /* Поля вокруг содержимого ячеек */
+                border: 1px solid black; /* Граница вокруг ячеек */
+            }
+            td {
+                padding: 5px; /* Поля вокруг содержимого ячеек */
+                border: 1px solid black; /* Граница вокруг ячеек */
+            }
+        </style>
+{{/*        <meta http-equiv="refresh" content="30"/>*/}}
+    </head>
+    <body>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Vending Machine App</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Main</a></li>
+                <li><a href="board_view">Board Commands</a></li>
+                <li><a href="/expend">Extent Material</a></li>
+                <li><a href="/board">Board Sensor Setup</a></li>
+                <li><a href="/printer">Printer Setup</a></li>
+                <li><a href="/modem">Modem Setup</a></li>
+                <li><a href="/media">Media Setup</a></li>
+                <li><a href="/system">System Setup</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+{{end}}

@@ -1,0 +1,35 @@
+{{define "printer"}}
+    {{template "header" .}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script >
+
+        $(document).ready(function(){
+
+            button = document.getElementById("post-btn")
+            button.addEventListener('click', async _ => {
+                $.post("/printer",
+                {
+                    name: "test_print",
+                    file: "./label_template/500.bmp"
+                },
+                function(data,status){
+                    console.log("Status: " + status);
+                });
+            });
+        });
+
+        </script>
+
+    <div class="content">
+        <h2>Printer Setup</h2>
+        <div>This is the Printer Setup page</div>
+        <div class="col-12 text-center">
+            <button class="btn btn-info print-action" id="post-btn" >Тестовая Печать</button>
+            <button class="btn btn-info update-labels">Обновить Этикетки</button>
+        </div>
+        <div class="w-100">
+            <hr my-1>
+        </div>
+    </div>
+    {{template "footer" .}}
+{{end}}

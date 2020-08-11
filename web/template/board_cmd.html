@@ -1,0 +1,49 @@
+{{define "board_cmd"}}
+    {{template "header" .}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script >
+    function post_cmd(cmd) {
+        $.post("/board_cmd",
+            {
+                name: "post_cmd",
+                cmd: cmd
+            },
+            function(data,status){
+                console.log("Status: " + status);
+            });
+    }
+</script>
+    <div class="content">
+        <div class="col-12 text-center">
+            <button class="btn btn-info print-action" onclick="post_cmd('enableLock')">Enable Lock</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('disableLock')">Disable Lock</button>
+        </div>
+        <div class="col-12 text-center">
+            <button class="btn btn-info print-action" onclick="post_cmd('oldHead')" >Old Iron Head</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('newHead')" >New Head</button>
+        </div>
+        <div class="col-12 text-center">
+            <button class="btn btn-info print-action" onclick="post_cmd('usePressureSwitch')" >Use Pressure Switch</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('unUsePressureSwitch')" >Un use Pressure Switch</button>
+        </div>
+        <div class="col-12 text-center">
+            <button class="btn btn-info print-action" onclick="post_cmd('vol1')" >Start Calibration Volume 1</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('vol2')" >Start Calibration Volume 2</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('vol3')" >Start Calibration Volume 3</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('vol4')" >Start Calibration Volume 4</button>
+        </div>
+        <div class="col-12 text-center">
+            <button class="btn btn-info print-action" onclick="post_cmd('220')" >220</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('230')" >StartSanitise</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('240')" >StartFillingSystem</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('250')" >250</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('241')" >241</button>
+            <button class="btn btn-info print-action" onclick="post_cmd('251')" >251</button>
+        </div>
+        <div class="w-100">
+            <hr my-1>
+        </div>
+    </div>
+
+    {{template "footer" .}}
+{{end}}

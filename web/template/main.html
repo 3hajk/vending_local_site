@@ -1,0 +1,115 @@
+{{define "main"}}
+    {{template "header" .}}
+    <div class="content">
+        <h2>Main</h2>
+        <div>This is the Main page</div>
+        <div>
+            <h1>{{ .ExpendData.Title }}</h1>
+            <table style="width: 100%; border: 4px; border-collapse: collapse">
+                <tr>
+                    {{ range .ExpendData.TableHeader}}
+                        <th>{{.}}</th>
+                    {{ end}}
+                </tr>
+                <tr>
+                    <td>{{ .ExpendData.Data.Bottle05 }}</td>
+                    <td>{{ .ExpendData.Data.Bottle10 }}</td>
+                    <td>{{ .ExpendData.Data.Bottle15 }}</td>
+                    <td>{{ .ExpendData.Data.Bottle20 }}</td>
+                    <td>{{ .ExpendData.Data.Labels}}</td>
+                    <td>{{ .ExpendData.Data.ProductResidue }}</td>
+                    <td>{{ .ExpendData.Data.LastUpdate}} </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h1>{{ .FillData.Title}}</h1>
+            <table>
+                {{ range .FillData.TableHeader}}
+                    <th>{{.}}</th>
+                {{ end}}
+                {{ range .FillData.Data}}
+                    <tr>
+                        <td>{{ .CO2Status }}</td>
+                        <td>{{ .CO2Pressure }}</td>
+                        <td>{{ .KegPressure }}</td>
+                        <td>{{ .DetectedVolume }}</td>
+                        <td>{{ .FlowmeterPulses }}</td>
+                        <td>{{ .Temperature }}</td>
+                        <td>{{ .Success }}</td>
+                        <td>{{ .ErrorCode }}</td>
+                        <td>{{ .Update }}</td>
+                    </tr>
+                {{ end}}
+            </table>
+        </div>
+        <div>
+            <h1>Board config</h1>
+            {{if .Mode}}
+                <h2>Board in service mode</h2>
+            {{end}}
+            <table>
+                <tr>
+                    <th>Current Temperature</th>
+                    <td>{{.BoardStatus.CurrentTemperature}} &deg;C</td>
+                </tr>
+                <tr>
+                    <th>Current Impulses</th>
+                    <td>{{.BoardStatus.CurrentImpulses}}</td>
+                </tr>
+                <tr>
+                    <th>Current Pressure</th>
+                    <td>{{.BoardStatus.CurrentPressure}} mBar</td>
+                </tr>
+                <tr>
+                    <th>Current Volume</th>
+                    <td>{{.BoardStatus.CurrentVolume}} ml</td>
+                </tr>
+                <tr>
+                    <th>Keg Pressure</th>
+                    <td>{{.BoardStatus.KegPressure}} mBar</td>
+                </tr>
+
+                <tr>
+                    <th>Error</th>
+                    <td>{{.BoardStatus.Error}} ({{ .BoardStatus.ErrorCode }})</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{.BoardStatus.Status}} ({{ .BoardStatus.StatusCode }})</td>
+                </tr>
+
+            </table>
+        </div>
+        <div>
+            <h1>Printer status</h1>
+            <table>
+                <tr>
+                    <th>FirmwareVersion</th>
+                    <td>{{.Printer.FirmwareVersionH }}:{{.Printer.FirmwareVersionL}}</td>
+                </tr>
+                <tr>
+                    <th>PE sensor voltage</th>
+                    <td>{{ .Printer.SNSR_PE_value}}x100mV</td>
+                </tr>
+                <tr>
+                    <th>LAB sensor voltage</th>
+                    <td>{{.Printer.SNSR_LAB_value}}x100mV</td>
+                </tr>
+                <tr>
+                    <th>Head temperature</th>
+                    <td>{{.Printer.SNSR_TM_value}} &deg;C</td>
+                </tr>
+                <tr>
+                    <th>RUL sensor voltage</th>
+                    <td>{{ .Printer.SNSR_RUL_value }}x100mV</td>
+                </tr>
+                <tr>
+                    <th>Darkness</th>
+                    <td>{{.Printer.PRM_darkness}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {{template "footer" .}}
+{{end}}

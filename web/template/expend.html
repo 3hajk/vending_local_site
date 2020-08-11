@@ -1,0 +1,84 @@
+{{define "expend"}}
+    {{template "header" .}}
+    <div class="content">
+        <h2>Expend Setup</h2>
+        <div>This is the Expend Setup page</div>
+
+        <div class="row align-items-center">
+            <div class="col-sm-8">
+                <h5><strong>Expend materials</strong></h5>
+                <hr>
+                {{ with .Success }}
+                    <p class="error" >{{ . }}</p>
+                {{ end}}
+            </div>
+        </div>
+
+        <form action="expend" class="form-group"  method="post">
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-4 col-form-label text-right">Product</label>
+            <div class="col-sm-2">
+                    {{ with .Errors.ProductResidue }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                <input type="text" class="form-control vending-consumables" name="product_residue" value="{{.Data.ProductResidue}}" >
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-4 col-form-label text-right">Bottle05</label>
+            <div class="col-sm-2">
+                {{ with .Errors.Bottle05 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-consumables" name="count_bottle_half" value="{{.Data.Bottle05}}">
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-4 col-form-label text-right">Bottle10</label>
+            <div class="col-sm-2">
+                {{ with .Errors.Bottle10 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-consumables" name="count_bottle_one" value="{{.Data.Bottle10}}">
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-4 col-form-label text-right">Bottle15</label>
+            <div class="col-sm-2">
+                {{ with .Errors.Bottle15 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-consumables" name="count_bottle_one_half" value="{{.Data.Bottle15}}">
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-4 col-form-label text-right">Bottle20</label>
+            <div class="col-sm-2">
+                {{ with .Errors.Bottle20 }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-consumables" name="count_bottle_two" value="{{.Data.Bottle20}}">
+            </div>
+        </div>
+        <div class="form-group row align-items-center mt-1">
+            <label class="col-sm-4 col-form-label text-right">Labels</label>
+            <div class="col-sm-2">
+                {{ with .Errors.Labels }}
+                    <p class="error" >{{ . }}</p>
+                {{ end }}
+                <input type="text" class="form-control vending-consumables" name="count_tickets" value="{{.Data.Labels}}">
+            </div>
+            <div class="w-100">
+                <hr my-0>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-sm-3 text-right">
+
+                <button class="btn btn-danger vending-consumables" id="consumables-save-button" type="submit">Сохранить</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    {{template "footer" .}}
+{{end}}
