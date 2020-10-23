@@ -73,7 +73,7 @@ func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		PrinterStatus2:   77,
 		FirmwareVersionH: 77,
 		FirmwareVersionL: 77,
-		SensorP:          77,
+		SensorPE:         77,
 		SensorLAB:        77,
 		SensorTM:         77,
 		SensorRUL:        77,

@@ -46,10 +46,10 @@ func (h *boardCmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			h.cnt.Command(board.Command.DisableLock, nil)
 			return
 		case "oldHead":
-			h.cnt.Command(board.Command.UseOldHead, nil)
+			h.cnt.Command(board.Command.UseOldPegas, nil)
 			return
 		case "newHead":
-			h.cnt.Command(board.Command.UseNewHead, nil)
+			h.cnt.Command(board.Command.UseNewPegas, nil)
 			return
 		case "usePressureSwitch":
 			h.cnt.Command(board.Command.UsePressureSwitch, nil)
@@ -58,16 +58,16 @@ func (h *boardCmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			h.cnt.Command(board.Command.UnUsePressureSwitch, nil)
 			return
 		case "vol1":
-			h.cnt.Command(board.Command.StartCalibrationVol1, nil)
+			h.cnt.Command(board.Command.PresetSettings1, nil)
 			return
 		case "vol2":
-			h.cnt.Command(board.Command.StartCalibrationVol2, nil)
+			h.cnt.Command(board.Command.PresetSettings2, nil)
 			return
 		case "vol3":
-			h.cnt.Command(board.Command.StartCalibrationVol3, nil)
+			h.cnt.Command(board.Command.PresetSettings3, nil)
 			return
 		case "vol4":
-			h.cnt.Command(board.Command.StartCalibrationVol4, nil)
+			h.cnt.Command(board.Command.PresetSettings4, nil)
 			return
 		case "220":
 			h.cnt.Command(board.Command.StartCalibrationMode, nil)
@@ -82,10 +82,10 @@ func (h *boardCmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			h.cnt.Command(board.Command.StopFillingSystem, nil)
 			return
 		case "241":
-			h.cnt.Command(board.Command.Start, nil)
+			h.cnt.Command(board.Command.StartCheckKegPressure, nil)
 			return
 		case "251":
-			h.cnt.Command(board.Command.Stop, nil)
+			h.cnt.Command(board.Command.StopCheckKegPressure, nil)
 			return
 		}
 		w.WriteHeader(http.StatusOK)

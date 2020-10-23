@@ -69,7 +69,7 @@ func (h *boardHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			Text:  fmt.Sprint(float32(i+1)*0.5, " Liter"),
 		}
 	}
-	d.STempl = &stemplate
+	d.SanitizeTemplate = &stemplate
 	h.t.ExecuteTemplate(w, "board", &d)
 }
 
@@ -115,7 +115,7 @@ func (h *boardFillingHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 				Text:  fmt.Sprint(float32(i+1)*0.5, " Liter"),
 			}
 		}
-		d.STempl = &stemplate
+		d.SanitizeTemplate = &stemplate
 		d.Errors = msg
 		d.Success = template.HTML("Error validate params")
 		if err != nil {
@@ -150,7 +150,7 @@ func (h *boardTareHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				Text:  fmt.Sprint(float32(i+1)*0.5, " Liter"),
 			}
 		}
-		d.STempl = &stemplate
+		d.SanitizeTemplate = &stemplate
 		d.Errors = msg
 		d.Success = template.HTML("Error validate params")
 		if err != nil {
@@ -225,13 +225,13 @@ func genBoardConfig() *controller.BoardConfig {
 	}
 
 	outs := board.SensorConfig{
-		ValveProduct:     true,
-		ValveHolder:      false,
-		ValveLock:        true,
-		ValveCo2:         false,
-		ValveCarbonation: true,
-		ValveWater:       false,
-		ValveDrainage:    true,
+		ValveProduct: true,
+		ValveHolder:  false,
+		ValveLock:    true,
+		ValveCo2:     false,
+		//ValveCarbonation: true,
+		ValveWater:    false,
+		ValveDrainage: true,
 	}
 
 	sntz := board.SanitizeConfig{

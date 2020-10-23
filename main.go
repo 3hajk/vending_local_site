@@ -7,7 +7,7 @@ import (
 	//"github.com/3hajk/vending_machine/controller"
 	"github.com/3hajk/vending_machine/database"
 	//"github.com/3hajk/vending_machine/printer"
-	"github.com/3hajk/vending_site/web"
+	"github.com/3hajk/vending_local_site/web"
 	"log"
 	"net/http"
 	"os"
