@@ -3,6 +3,7 @@ package web
 import (
 	//"github.com/3hajk/vending_machine/controller"
 	"github.com/3hajk/vending_machine/database"
+	"github.com/rivo/users"
 	"html/template"
 	"log"
 	"net/http"
@@ -41,6 +42,14 @@ func (h *systemHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	log.Println(token)
 
+	user, _, _ := users.IsLoggedIn(w, r)
+	email := ""
+	if user != nil {
+		email = user.GetEmail()
+	} else {
+		http.Redirect(w, r, users.Config.RouteLogIn, 302)
+	}
+
 	d := struct {
 		Title        string
 		NotifyId     int64
@@ -48,6 +57,8 @@ func (h *systemHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Imei         string
 		Proto        string
 		Mode         bool
+		User         users.User
+		UserEmail    string
 	}{
 		Title:        "System",
 		NotifyId:     notifyId,
@@ -55,6 +66,8 @@ func (h *systemHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Imei:         imei,
 		Proto:        proto,
 		Mode:         !mode,
+		User:         user,
+		UserEmail:    email,
 	}
 
 	h.t.ExecuteTemplate(w, "system", &d)

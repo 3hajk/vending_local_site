@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/3hajk/vending_machine/database"
 	"github.com/gorilla/schema"
+	"github.com/rivo/users"
 	"html/template"
 	"log"
 	"net/http"
@@ -64,16 +65,28 @@ func (h *expendHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	user, _, _ := users.IsLoggedIn(w, r)
+	email := ""
+	if user != nil {
+		email = user.GetEmail()
+	} else {
+		http.Redirect(w, r, users.Config.RouteLogIn, 302)
+	}
+
 	d := struct {
-		Title   template.HTML
-		Data    *database.ExpendData
-		Success template.HTML
-		Errors  map[string]string
+		Title     template.HTML
+		Data      *database.ExpendData
+		Success   template.HTML
+		Errors    map[string]string
+		User      users.User
+		UserEmail string
 	}{
 		template.HTML("Expend"),
 		expend,
 		template.HTML(success),
 		errors,
+		user,
+		email,
 	}
 	h.t.ExecuteTemplate(w, "expend", &d)
 }

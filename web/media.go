@@ -2,6 +2,7 @@ package web
 
 import (
 	"github.com/3hajk/vending_machine/database"
+	"github.com/rivo/users"
 	"html/template"
 	"net/http"
 )
@@ -20,6 +21,12 @@ func NewMediaHandler(db *database.Database) *mediaHandler {
 }
 
 func (h *mediaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
-	h.t.ExecuteTemplate(w, "media", &Page{Title: "Media"})
+	user, _, _ := users.IsLoggedIn(w, r)
+	email := ""
+	if user != nil {
+		email = user.GetEmail()
+	} else {
+		http.Redirect(w, r, users.Config.RouteLogIn, 302)
+	}
+	h.t.ExecuteTemplate(w, "media", &Page{Title: "Media", User: user, UserEmail: email})
 }

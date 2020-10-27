@@ -1,6 +1,7 @@
 package web
 
 import (
+	"github.com/rivo/users"
 	//"github.com/3hajk/vending_machine/printer"
 	"html/template"
 	"log"
@@ -30,6 +31,12 @@ func (ah *printerHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		//ah.p.PrintLabelBMP2(file)
 	}
-
-	ah.t.ExecuteTemplate(w, "printer", &Page{Title: "Printer"})
+	user, _, _ := users.IsLoggedIn(w, r)
+	email := ""
+	if user != nil {
+		email = user.GetEmail()
+	} else {
+		http.Redirect(w, r, users.Config.RouteLogIn, 302)
+	}
+	ah.t.ExecuteTemplate(w, "printer", &Page{Title: "Printer", User: user, UserEmail: email})
 }

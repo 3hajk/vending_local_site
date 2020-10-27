@@ -3,16 +3,13 @@ package web
 import (
 	"fmt"
 	"github.com/3hajk/vending_machine/controller/board"
+	"github.com/3hajk/vending_machine/database"
 	"github.com/3hajk/vending_machine/printer"
 	"github.com/fatih/structs"
-
-	//"fmt"
-	//"github.com/3hajk/vending_machine/controller/board"
-	"github.com/3hajk/vending_machine/database"
-	//"github.com/3hajk/vending_machine/printer"
-	//"github.com/fatih/structs"
+	"github.com/rivo/users"
 	"html/template"
 	"net/http"
+	"time"
 )
 
 type rootHandler struct {
@@ -39,10 +36,21 @@ type Expend struct {
 }
 
 type Page struct {
-	Title string
+	Title     string
+	User      users.User
+	UserEmail string
 }
 
 func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+
+	c, err := r.Cookie("lang")
+	currentLang := "ru"
+	if err != nil || c.Value != currentLang {
+		expiration := time.Now().Add(365 * 24 * time.Hour)
+		cookie := http.Cookie{Name: "lang", Value: "ua", Expires: expiration}
+		http.SetCookie(w, &cookie)
+	}
+
 	expend, err := rh.db.GetExpend()
 	if err != nil {
 		w.WriteHeader(502)
@@ -91,6 +99,17 @@ func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	//}
 	serviceMode := true // rh.cnt.GetServiceMod()
 	//boardStatus := rh.cnt.GetStatus()
+
+	user, _, _ := users.IsLoggedIn(w, r)
+	email := ""
+	if user != nil {
+		email = user.GetEmail()
+	} else {
+		http.Redirect(w, r, users.Config.RouteLogIn, 302)
+	}
+
+	//cfg := users.Config
+
 	boardStatus := &board.VendingStatus{
 		Id:                 100,
 		StatusCode:         100,
@@ -111,20 +130,31 @@ func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Msg         string
 		Mode        bool
 		BoardStatus *board.VendingStatus
+		User        users.User
+		UserEmail   string
 	}{
-		template.HTML("Vending status"),
-		expendStat,
-		fill,
-		status,
-		msgError,
-		serviceMode,
-		boardStatus,
+		Title:       template.HTML("Vending status"),
+		ExpendData:  expendStat,
+		FillData:    fill,
+		Printer:     status,
+		Msg:         msgError,
+		Mode:        serviceMode,
+		BoardStatus: boardStatus,
+		User:        user,
+		UserEmail:   email,
 	}
 	rh.t.ExecuteTemplate(w, "main", d)
 }
 
 func (ah *aboutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	ah.t.ExecuteTemplate(w, "about", &Page{Title: "About"})
+	user, _, _ := users.IsLoggedIn(w, r)
+	email := ""
+	if user != nil {
+		email = user.GetEmail()
+	} else {
+		http.Redirect(w, r, users.Config.RouteLogIn, 302)
+	}
+	ah.t.ExecuteTemplate(w, "about", &Page{Title: "About", UserEmail: email, User: user})
 }
 
 func NewRootHandler(db *database.Database) (*rootHandler, error) {

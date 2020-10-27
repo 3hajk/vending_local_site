@@ -4,6 +4,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/rivo/sessions"
+	"github.com/rivo/users"
 	//"github.com/3hajk/vending_machine/controller"
 	"github.com/3hajk/vending_machine/database"
 	//"github.com/3hajk/vending_machine/printer"
@@ -24,13 +26,6 @@ func main() {
 	flag.Parse()
 	log.Println("Starting server")
 
-	//controller := &controller.Controller{
-	//
-	//}
-	//labelPrinter := &printer.Printer{
-	//
-	//}
-
 	err := database.CreateDatabases(sqlitePath)
 	if err != nil {
 		log.Fatal("Cant connect to db", err.Error())
@@ -48,6 +43,46 @@ func main() {
 	http.Handle("/", rh)
 
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("web/template/assets"))))
+
+	//_, err = db.LoadUserByEmail("a@b.c")
+	//if err != nil {
+	//	log.Print(err.Error())
+	//	hash, err := bcrypt.GenerateFromPassword([]byte("q1w2e3r4t5y6"), 0)
+	//	if err != nil {
+	//		log.Print(err)
+	//	}
+	//	testUser := db.NewUser(sessions.CUID())
+	//	testUser.Email="a@b.c"
+	//	testUser.PasswordHash=hash
+	//	testUser.State=1
+	//	testUser.RolesId =0
+	//	l,err:= db.CreateUser(testUser)
+	//	if err != nil {
+	//		log.Print("Not create user: ",err.Error())
+	//	}
+	//	log.Print("CreateUser", l)
+	//}
+
+	db.InitUsers()
+	users.Config.Internationalization = true
+	users.Config.HTMLTemplateDir = "web/template/users"
+	users.Config.NewUser = func() users.User {
+		return db.NewUser(sessions.CUID())
+	}
+	users.Config.LoadUserByEmail = func(email string) (users.User, error) {
+
+		log.Print("TEst sdfsdfsdf")
+		return db.LoadUserByEmail(email)
+	}
+
+	//http.SetCookie()
+	//http.HandleFunc(users.Config.RouteSignUp, users.SignUp)
+	//http.HandleFunc(users.Config.RouteVerify, users.Verify)
+	http.HandleFunc(users.Config.RouteLogIn, users.LogIn)
+	http.HandleFunc(users.Config.RouteLogOut, users.LogOut)
+	//http.HandleFunc(users.Config.RouteForgottenPassword, users.ForgottenPassword)
+	//http.HandleFunc(users.Config.RouteResetPassword, users.ResetPassword)
+	//http.HandleFunc(users.Config.RouteChange, users.Change)
 
 	exph := web.NewExpendHandler(db)
 	http.Handle("/expend", exph)

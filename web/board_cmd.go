@@ -3,6 +3,7 @@ package web
 import (
 	"github.com/3hajk/vending_machine/controller"
 	"github.com/3hajk/vending_machine/controller/board"
+	"github.com/rivo/users"
 	"html/template"
 	"log"
 	"net/http"
@@ -28,7 +29,14 @@ func NewBoardCmdHandler() *boardCmdHandler {
 }
 
 func (h *boardViewHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	h.t.ExecuteTemplate(w, "board_cmd", &Page{Title: "Board Control"})
+
+	user, _, _ := users.IsLoggedIn(w, r)
+	email := ""
+	if user != nil {
+		email = user.GetEmail()
+	}
+
+	h.t.ExecuteTemplate(w, "board_cmd", &Page{Title: "Board Control", User: user, UserEmail: email})
 }
 
 func (h *boardCmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
