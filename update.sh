@@ -56,6 +56,7 @@ if [ -z "$NEEDS_TAG" ]; then
   #npm version $NEW_TAG
   #npm publish --access public
   echo "Tagged with $NEW_TAG"
+  git tag ${NEW_TAG}
   git push --tags
   git push
 else
