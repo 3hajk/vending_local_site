@@ -1,49 +1,79 @@
 {{define "board_cmd"}}
     {{template "header" .}}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script >
-    function post_cmd(cmd) {
-        $.post("/board_cmd",
-            {
-                name: "post_cmd",
-                cmd: cmd
-            },
-            function(data,status){
-                console.log("Status: " + status);
-            });
-    }
-</script>
-    <div class="content">
-        <div class="col-12 text-center">
-            <button class="btn btn-info print-action" onclick="post_cmd('enableLock')">Enable Lock</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('disableLock')">Disable Lock</button>
-        </div>
-        <div class="col-12 text-center">
-            <button class="btn btn-info print-action" onclick="post_cmd('oldHead')" >Old Iron Head</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('newHead')" >New Head</button>
-        </div>
-        <div class="col-12 text-center">
-            <button class="btn btn-info print-action" onclick="post_cmd('usePressureSwitch')" >Use Pressure Switch</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('unUsePressureSwitch')" >Un use Pressure Switch</button>
-        </div>
-        <div class="col-12 text-center">
-            <button class="btn btn-info print-action" onclick="post_cmd('vol1')" >Start Calibration Volume 1</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('vol2')" >Start Calibration Volume 2</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('vol3')" >Start Calibration Volume 3</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('vol4')" >Start Calibration Volume 4</button>
-        </div>
-        <div class="col-12 text-center">
-            <button class="btn btn-info print-action" onclick="post_cmd('220')" >220</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('230')" >StartSanitise</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('240')" >StartFillingSystem</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('250')" >250</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('241')" >241</button>
-            <button class="btn btn-info print-action" onclick="post_cmd('251')" >251</button>
-        </div>
-        <div class="w-100">
-            <hr my-1>
-        </div>
-    </div>
+    <script src="/assets/jquery.min.js"></script>
+    <script >
+        function post_cmd(cmd) {
+            $.post("/board_cmd",
+                {
+                    name: "post_cmd",
+                    cmd: cmd
+                },
+                function(data,status){
+                    document.location.reload();
+                });
+        }
+    </script>
+    <h2>{{translate "board_commands"}}</h2>
+    {{if lt 1 .UserRole}}
 
+        {{if .Mode}}
+            <h4 style="color: crimson">{{translate "not_service_mode"}}</h4>
+        {{end}}
+        <div class="content">
+            <div class="col-12 text-center">
+                <button class="btn btn-info print-action" onclick="post_cmd('enableLock')" {{ if  .Outs.Shutter }}disabled{{ end }}> {{translate "enable_shutter"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('disableLock')" {{ if not .Outs.Shutter }}disabled{{ end }}>{{translate "dissable_shutter"}}</button>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-info print-action" onclick="post_cmd('oldHead')" {{ if  .Outs.Pegas }}disabled{{ end }}>{{translate "pegas_old"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('newHead')" {{ if not .Outs.Pegas }}disabled{{ end }}>{{translate "pegas_new"}}</button>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-info print-action" onclick="post_cmd('usePressureSwitch')" {{ if  .Outs.Switch }}disabled{{ end }}>{{translate "enabe_switch"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('unUsePressureSwitch')" {{ if not .Outs.Switch }}disabled{{ end }}>{{translate "dissable_switch"}}</button>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-info print-action" onclick="post_cmd('240')" >{{translate "run_filling"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('250')" >{{translate "stop_filling"}}</button>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-info print-action" onclick="post_cmd('241')" >{{translate "run_check"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('251')" >{{translate "stop_check"}}</button>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-info print-action" onclick="post_cmd('666')" >{{translate "dissable_filling"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('999')" >{{translate "enable_filling"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('1402')"{{ if .Outs.FillingButtonInterrupt }}disabled{{ end }}>{{translate "enable_interrupt"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('1422')"{{ if not .Outs.FillingButtonInterrupt }}disabled{{ end }}>{{translate "dissable_interrupt"}}</button>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-info print-action" onclick="post_cmd('975')" {{ if .Outs.CheckPressureMode }}disabled{{ end }}>{{translate "enable_detect_fast"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('985')" {{ if not .Outs.CheckPressureMode }}disabled{{ end }}>{{translate "dissable_detect_fast"}}</button>
+            </div>
+            <div class="col-12 text-center">
+                <!--                -->
+                <button class="btn btn-info print-action" onclick="post_cmd('925')"  {{ if not .Outs.FillingMode }}disabled{{ end }}>{{translate "enable_pressure"}}</button>
+                <button class="btn btn-info print-action" onclick="post_cmd('935')" {{ if .Outs.FillingMode }}disabled{{ end }}>{{translate "enable_timer"}}</button>
+            </div>
+            <div class="col-12 text-center">
+                <button class="btn btn-info print-action" onclick="post_cmd('2210')" >{{translate "run_flushing_system"}}</button>
+            </div>
+            <div class="w-100">
+                <hr my-1>
+            </div>
+            <div class="col-12 text-center">
+                {{if .Mode}}
+                    <button class="btn btn-info print-action" onclick="post_cmd('2205')" >{{translate "service_mod_on"}}</button>
+                {{else}}
+                    <button class="btn btn-info print-action" onclick="post_cmd('2206')" >{{translate "service_mod_off"}}</button>
+                {{end}}
+            </div>
+            <div class="w-100">
+                <hr my-1>
+            </div>
+        </div>
+    {{else}}
+        {{translate "access_denied"}}
+    {{end}}
     {{template "footer" .}}
 {{end}}

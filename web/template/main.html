@@ -1,14 +1,128 @@
 {{define "main"}}
     {{template "header" .}}
+    <h2>{{translate "main"}}</h2>
+    <h3>{{translate "current_time"}}: {{.Date}}</h3>
+    {{if not .Mode}}
+        <h4 style="color: crimson">{{translate "not_service_mode"}}</h4>
+    {{end}}
     <div class="content">
-        <h2>Main</h2>
-        <div>This is the Main page</div>
+        <div>
+            <h1>{{translate "board_config"}}</h1>
+            <form action="outs", method="post">
+                <div class="row">
+                    <div class="col-8 text-left">
+                        <button class="btn btn-danger vending-pouring-settings" id="pouring-save-button" type="submit" {{ if not .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                        <input type="checkbox" class="btn btn-info vending-valve" name="valve_holder" value="1"{{ if .Outs.ValveHolder }} checked {{end}} {{ if not .Mode }}disabled{{ end }}>{{translate "clamp"}}</input>
+                        <input type="checkbox" class="btn btn-info vending-valve" name="valve_drainage" value="1" {{ if .Outs.ValveDrainage }} checked {{end}} {{ if not .Mode }}disabled{{ end }}>{{translate "drainage"}}</input>
+                        <input type="checkbox" class="btn btn-info vending-valve" name="valve_pressure" value="1" {{ if .Outs.ValvePressure }} checked {{end}} {{ if not .Mode }}disabled{{ end }}>{{translate "pressure"}}</input>
+                        <input type="checkbox" class="btn btn-info vending-valve" name="valve_water" value="1"{{ if .Outs.ValveWater }} checked {{end}} {{ if not .Mode }}disabled{{ end }}>{{translate "water"}}</input>
+                        <input type="checkbox" class="btn btn-info vending-valve" name="valve_co2" value="1"{{ if .Outs.ValveCo2 }} checked {{end}} {{ if not .Mode }}disabled{{ end }}>{{translate "co2"}}</input>
+                        <input type="checkbox" class="btn btn-info vending-valve" name="valve_lock" value="1"{{ if .Outs.ValveLock }} checked {{end}} {{ if not .Mode }}disabled{{ end }}>{{translate "lock"}}</input>
+                        <input type="checkbox" class="btn btn-info vending-valve" name="valve_product" value="1"{{ if .Outs.ValveProduct }} checked {{end}} {{ if not .Mode }}disabled{{ end }}>{{translate "product"}}</input>
+                        <input type="checkbox" class="btn btn-info vending-valve" name="valve_reed_switch" value="1"{{ if .Outs.ReedSwitch }} checked {{end}} {{ if not .Mode }}disabled{{ end }}>{{translate "reed_switch"}}</input>
+                        <input type="checkbox" class="btn btn-info vending-valve" name="valve_pressure_switch" value="1" {{ if .Outs.PressureSwitch }} checked {{end}} {{ if not .Mode }}disabled{{ end }}>{{translate "pressure_switch"}}</input>
+
+                    </div>
+                    <div class="w-100">
+                        <hr my-1>
+                    </div>
+                </div>
+            </form>
+            <table>
+                <tr>
+                    <th>{{translate "current_temperature"}}</th>
+                    {{if eq  .BoardStatus.CurrentTemperature -273}}
+                        <td>{{translate "not_connect"}}</td>
+                    {{else}}
+                        <td>{{.BoardStatus.CurrentTemperature}} &deg;C</td>
+                    {{end}}
+                </tr>
+                <tr>
+                    <th>{{translate "current_impulses"}}</th>
+                    <td>{{.BoardStatus.CurrentImpulses}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "current_pressure"}}</th>
+                    <td>{{.BoardStatus.CurrentPressure}} {{translate "mbar"}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "current_volume"}}</th>
+                    <td>{{.BoardStatus.CurrentVolume}} {{translate "ml"}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "keg_pressure"}}</th>
+                    <td>{{.BoardStatus.KegPressure}} {{translate "mbar"}}</td>
+                </tr>
+
+                <tr>
+                    <th>{{translate "error_msg"}}</th>
+                    <td>{{.BoardStatus.Error}} ({{ .BoardStatus.ErrorCode }})</td>
+                </tr>
+                <tr>
+                    <th>{{translate "status"}}</th>
+                    <td>{{.BoardStatus.Status}} ({{ .BoardStatus.StatusCode }})</td>
+                </tr>
+                <tr>
+                    <th>{{translate "reed_switch"}}</th>
+                    <td>{{if .Outs.ReedSwitch }}{{translate "enable"}}{{ else }}{{translate "disable"}}{{end}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "shutter_status"}}</th>
+                    <td>{{ if .Outs.Shutter}}{{translate "enable"}}{{ else }}{{translate "disable"}}{{end}}</td>
+                </tr>
+
+                <tr>
+                    <th>{{translate "pegas"}}</th>
+                    <td>{{ if .Outs.Pegas }}{{translate "pegas_old"}}{{ else }}{{translate "pegas_new"}}{{ end }}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "temperature_sensor"}}</th>
+                    <td>{{if .Outs.TemperatureSensor}}{{translate "enable"}}{{ else }}{{translate "disable"}}{{end}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "switch_pressure_status"}}</th>
+                    <td>{{if .Outs.Switch}}{{translate "enable"}}{{ else }}{{translate "disable"}}{{end}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "preset_mode"}}</th>
+                    <td>{{.Outs.PresetMode}} </td>
+                </tr>
+                <tr>
+                    <th>{{translate "calibration_filling"}}</th>
+                    <td>{{if .Outs.FillingCalibration}}{{translate "enable"}}{{ else }}{{translate "disable"}}{{end}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "filling_button"}}</th>
+                    <td>{{if .Outs.FillingButtonInterrupt}}{{translate "enable"}}{{ else }}{{translate "disable"}}{{end}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "firmware_version"}}</th>
+                    <td>{{ .BoardStatus.FirmwareVersion }}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "check_pressure_mode"}}</th>
+                    <td>{{if .Outs.CheckPressureMode}}{{translate "fast"}}{{ else }}{{translate "slow"}}{{end}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "filling_mode"}}</th>
+                    <td>{{if.Outs.FillingMode}}{{translate "filling_timer"}}{{ else }}{{translate "filling_pressure"}}{{end}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "power_pressure_sensor"}}</th>
+                    <td>{{ .BoardStatus.PressureSensor}} {{translate "mbar"}}</td>
+                </tr>
+                <tr>
+                    <th>{{translate "limit_power_pressure_sensor"}}</th>
+                    <td>{{ .BoardStatus.PressureSensorLimit}} {{translate "mbar"}}</td>
+                </tr>
+            </table>
+        </div>
         <div>
             <h1>{{ .ExpendData.Title }}</h1>
             <table style="width: 100%; border: 4px; border-collapse: collapse">
                 <tr>
                     {{ range .ExpendData.TableHeader}}
-                        <th>{{.}}</th>
+                        <th>{{translate .}}</th>
                     {{ end}}
                 </tr>
                 <tr>
@@ -23,10 +137,87 @@
             </table>
         </div>
         <div>
+            <h1>{{translate "printer_status"}}</h1>
+            {{if .PrinterInit}}
+                <table>
+                    <tr>
+                        <th>{{translate "error_msg"}}</th>
+                        <td>{{ .Printer.ErrorCode}}</td>
+                    </tr>
+
+                    <tr>
+                        <th>{{translate "firmware_version"}}</th>
+                        <td>{{.Printer.FirmwareVersionH }}:{{.Printer.FirmwareVersionL}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "PE_sensor"}}</th>
+                        <td>{{ .PrinterSensor.SensorPE }} {{translate "volt"}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "LAB_sensor"}}</th>
+                        <td>{{.PrinterSensor.SensorLAB}} {{translate "volt"}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "head_temperature"}}</th>
+                        <td>{{.Printer.SensorTM}} &deg;C</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "RUL_sensor"}}</th>
+                        <td>{{ .PrinterSensor.SensorRUL }} {{translate "volt"}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "darkness"}}</th>
+                        <td>{{.Printer.PRMDarkness}}</td>
+                    </tr>
+                </table>
+            {{else}}
+                <div>
+                    <h4>{{translate "printer_not_init"}}</h4>
+                </div>
+            {{end}}
+        </div>
+        <div>
+            <h1>{{translate "modem_status"}}</h1>
+            <table>
+                <tr>
+                    <th>{{translate "status"}}</th>
+                    <td>{{if .Modem.Active}}{{translate "active"}}{{ else }}{{translate "inactive"}}{{end}} </td>
+                </tr>
+                {{if .Modem.Active}}
+                    <tr>
+                        <th>{{translate "apn"}}</th>
+                        <td>{{.Modem.AccessPointName}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "user_name"}}</th>
+                        <td>{{.Modem.Username}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "passwd"}}</th>
+                        <td>{{.Modem.Password}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "interface"}}</th>
+                        <td>{{.Modem.Interface.Interface}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "adress"}}</th>
+                        <td>{{.Modem.Interface.Address}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "dns"}}</th>
+                        <td>{{.Modem.Interface.DomainNameServers}}</td>
+                    </tr>
+
+                {{end}}
+
+            </table>
+        </div>
+        <div>
             <h1>{{ .FillData.Title}}</h1>
             <table>
                 {{ range .FillData.TableHeader}}
-                    <th>{{.}}</th>
+                    <th>{{translate .}}</th>
                 {{ end}}
                 {{ range .FillData.Data}}
                     <tr>
@@ -41,73 +232,6 @@
                         <td>{{ .Update }}</td>
                     </tr>
                 {{ end}}
-            </table>
-        </div>
-        <div>
-            <h1>Board config</h1>
-            {{if .Mode}}
-                <h2>Board in service mode</h2>
-            {{end}}
-            <table>
-                <tr>
-                    <th>Current Temperature</th>
-                    <td>{{.BoardStatus.CurrentTemperature}} &deg;C</td>
-                </tr>
-                <tr>
-                    <th>Current Impulses</th>
-                    <td>{{.BoardStatus.CurrentImpulses}}</td>
-                </tr>
-                <tr>
-                    <th>Current Pressure</th>
-                    <td>{{.BoardStatus.CurrentPressure}} mBar</td>
-                </tr>
-                <tr>
-                    <th>Current Volume</th>
-                    <td>{{.BoardStatus.CurrentVolume}} ml</td>
-                </tr>
-                <tr>
-                    <th>Keg Pressure</th>
-                    <td>{{.BoardStatus.KegPressure}} mBar</td>
-                </tr>
-
-                <tr>
-                    <th>Error</th>
-                    <td>{{.BoardStatus.Error}} ({{ .BoardStatus.ErrorCode }})</td>
-                </tr>
-                <tr>
-                    <th>Status</th>
-                    <td>{{.BoardStatus.Status}} ({{ .BoardStatus.StatusCode }})</td>
-                </tr>
-
-            </table>
-        </div>
-        <div>
-            <h1>Printer status</h1>
-            <table>
-                <tr>
-                    <th>FirmwareVersion</th>
-                    <td>{{.Printer.FirmwareVersionH }}:{{.Printer.FirmwareVersionL}}</td>
-                </tr>
-                <tr>
-                    <th>PE sensor voltage</th>
-                    <td>{{ .Printer.SNSR_PE_value}}x100mV</td>
-                </tr>
-                <tr>
-                    <th>LAB sensor voltage</th>
-                    <td>{{.Printer.SNSR_LAB_value}}x100mV</td>
-                </tr>
-                <tr>
-                    <th>Head temperature</th>
-                    <td>{{.Printer.SNSR_TM_value}} &deg;C</td>
-                </tr>
-                <tr>
-                    <th>RUL sensor voltage</th>
-                    <td>{{ .Printer.SNSR_RUL_value }}x100mV</td>
-                </tr>
-                <tr>
-                    <th>Darkness</th>
-                    <td>{{.Printer.PRM_darkness}}</td>
-                </tr>
             </table>
         </div>
     </div>

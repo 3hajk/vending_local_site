@@ -1,8 +1,134 @@
 {{define "modem"}}
     {{template "header" .}}
+    <script src="/assets/jquery.min.js"></script>
+    <script >
+        function update_cmd(cmd) {
+            val = document.getElementById("vending-"+cmd+"-input").value
+            $.post("/system_cmd",
+                {
+                    name: "post_cmd",
+                    cmd: cmd,
+                    value: val
+                },
+                function(data,status){
+                    alert({{ translate "param_update"}})
+                    document.location.reload();
+                });
+        }
+    </script>
     <div class="content">
-        <h2>Modem Setup</h2>
-        <div>This is the Modem Setup page</div>
+        <div>
+            <h2>{{translate "modem_status"}}</h2>
+            {{if lt 1 .UserRole}}
+                <div>
+                    <table>
+                        <tr>
+                            <th>{{translate "status"}}</th>
+                            <td>{{if .ModemContext.Active}}{{translate "active"}}{{ else }}{{translate "inactive"}}{{end}} </td>
+                        </tr>
+                        {{if .ModemContext.Active}}
+                            <tr>
+                                <th>{{translate "apn"}}</th>
+                                <td>{{.ModemContext.AccessPointName}}</td>
+                            </tr>
+                            <tr>
+                                <th>{{translate "user_name"}}</th>
+                                <td>{{.ModemContext.Username}}</td>
+                            </tr>
+                            <tr>
+                                <th>{{translate "passwd"}}</th>
+                                <td>{{.ModemContext.Password}}</td>
+                            </tr>
+                            <tr>
+                                <th>{{translate "interface"}}</th>
+                                <td>{{.ModemContext.Interface.Interface}}</td>
+                            </tr>
+                            <tr>
+                                <th>{{translate "adress"}}</th>
+                                <td>{{.ModemContext.Interface.Address}}</td>
+                            </tr>
+                            <tr>
+                                <th>{{translate "dns"}}</th>
+                                <td>{{.ModemContext.Interface.DomainNameServers}}</td>
+                            </tr>
+
+                        {{end}}
+
+                    </table>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+                <h1>{{translate "modem_config"}}</h1>
+                <div class="form-group row align-items-left my-0">
+                    <label class="col-sm-3 col-form-label text-right">{{translate "apn"}}</label>
+                    <div class="input-group col-sm-3">
+                        <input type="text" class="form-control" id="vending-apn-input" value="{{ .Modem.Apn }}" {{ if .Mode }}disabled{{ end }}>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-success" id="vending-apn-button" type="button" onclick="update_cmd('apn')" {{ if .Mode }}disabled{{ end }}>{{translate "save"}}</button>
+                    </div>
+
+                    <div class="w-100">
+                        <hr my-0>
+                    </div>
+                </div>
+                <div class="form-group row align-items-center my-0">
+                    <label class="col-sm-3 col-form-label text-right">{{translate "user_name"}}</label>
+                    <div class="input-group col-sm-3">
+                        <input type="text" class="form-control" id="vending-user-input" value="{{ .Modem.User }}" {{ if .Mode }}disabled{{ end }}>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-success" id="vending-user-button" type="button" onclick="update_cmd('user')" {{ if .Mode }}disabled{{ end }}>{{translate "save"}}</button>
+                    </div>
+
+                    <div class="w-100">
+                        <hr my-0>
+                    </div>
+                </div>
+                <div class="form-group row align-items-center my-0">
+                    <label class="col-sm-3 col-form-label text-right">{{translate "passwd"}}</label>
+                    <div class="input-group col-sm-3">
+                        <input type="text" class="form-control" id="vending-passwd-input" value="{{ .Modem.Passwd }}" {{ if .Mode }}disabled{{ end }}>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-success" id="vending-passwd-button" type="button" onclick="update_cmd('passwd')" {{ if .Mode }}disabled{{ end }}>{{translate "save"}}</button>
+                    </div>
+
+                    <div class="w-100">
+                        <hr my-0>
+                    </div>
+                </div>
+                <div class="form-group row align-items-center my-0" style="display: none">
+                    <label class="col-sm-3 col-form-label text-right">WIFI SSID</label>
+                    <div class="input-group col-sm-3">
+                        <input type="text" class="form-control" id="vending-ssid-input" value="{{ .Wifi.Ssid }}" {{ if .Mode }}disabled{{ end }}>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-success" id="vending-ssid-button" type="button" onclick="update_cmd('ssid')" {{ if .Mode }}disabled{{ end }}>Update</button>
+                    </div>
+
+                    <div class="w-100">
+                        <hr my-0>
+                    </div>
+                </div>
+                <div class="form-group row align-items-center my-0" style="display: none">
+                    <label class="col-sm-3 col-form-label text-right">WIFI passwd</label>
+                    <div class="input-group col-sm-3">
+                        <input type="text" class="form-control" id="vending-secret-input" value="{{ .Wifi.Passwd }}" {{ if .Mode }}disabled{{ end }}>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-success" id="vending-secret-button" type="button" onclick="update_cmd('secret')" {{ if .Mode }}disabled{{ end }}>Update</button>
+                    </div>
+
+                    <div class="w-100">
+                        <hr my-0>
+                    </div>
+                </div>
+            {{else}}
+                {{translate "access_denied"}}
+            {{end}}
+        </div>
     </div>
     {{template "footer" .}}
 {{end}}

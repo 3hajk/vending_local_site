@@ -7,14 +7,13 @@ import (
 	"github.com/3hajk/vending_machine/printer"
 	"github.com/fatih/structs"
 	"github.com/rivo/users"
+	"golang.org/x/text/message"
 	"html/template"
 	"net/http"
 	"time"
 )
 
 type rootHandler struct {
-	//p   *printer.Printer
-	//cnt *controller.Controller
 	db *database.Database
 	t  *template.Template
 }
@@ -39,6 +38,25 @@ type Page struct {
 	Title     string
 	User      users.User
 	UserEmail string
+}
+
+type PrinterSensor struct {
+	SensorPE  string
+	SensorLAB string
+	SensorRUL string
+}
+
+type Context struct {
+	Name                 string
+	Active               bool
+	Type                 string
+	Protocol             string
+	AccessPointName      string
+	Username             string
+	Password             string
+	AuthenticationMethod string
+	Settings             string
+	//Interface            Interface
 }
 
 func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -87,18 +105,8 @@ func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		SensorRUL:        77,
 		PRMDarkness:      77,
 	}
-	//if err != nil {
-	//	w.WriteHeader(502)
-	//	fmt.Fprintf(w, "Error writing end-of-print: %v", err)
-	//	return
-	//}
 	var msgError string
-	//if status.ErrorCode != 0 {
-	//	_, err := printer.GetError(status.ErrorCode)
-	//	msgError = err.Error()
-	//}
 	serviceMode := true // rh.cnt.GetServiceMod()
-	//boardStatus := rh.cnt.GetStatus()
 
 	user, _, _ := users.IsLoggedIn(w, r)
 	email := ""
@@ -122,16 +130,48 @@ func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		CurrentTemperature: 100,
 		KegPressure:        100,
 	}
+
+	outs := board.SensorConfig{
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		1,
+		true,
+		false,
+		false,
+		false,
+		false,
+	}
+
+	cnx := Context{
+		Name:   "test",
+		Active: false,
+	}
+
 	d := struct {
-		Title       template.HTML
-		ExpendData  *Expend
-		FillData    *FillLog
-		Printer     *printer.Status
-		Msg         string
-		Mode        bool
-		BoardStatus *board.VendingStatus
-		User        users.User
-		UserEmail   string
+		Title         template.HTML
+		ExpendData    *Expend
+		FillData      *FillLog
+		Outs          *board.SensorConfig
+		PrinterInit   bool
+		Printer       *printer.Status
+		PrinterSensor *PrinterSensor
+		Msg           string
+		Mode          bool
+		BoardStatus   *board.VendingStatus
+		Modem         *Context
+		Date          string
+		User          users.User
+		UserEmail     string
 	}{
 		Title:       template.HTML("Vending status"),
 		ExpendData:  expendStat,
@@ -142,6 +182,9 @@ func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		BoardStatus: boardStatus,
 		User:        user,
 		UserEmail:   email,
+		Date:        time.Now().Format("2006.01.02 15:04"),
+		Outs:        &outs,
+		Modem:       &cnx,
 	}
 	rh.t.ExecuteTemplate(w, "main", d)
 }
@@ -157,17 +200,23 @@ func (ah *aboutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ah.t.ExecuteTemplate(w, "about", &Page{Title: "About", UserEmail: email, User: user})
 }
 
-func NewRootHandler(db *database.Database) (*rootHandler, error) {
-	rh := rootHandler{}
-	//rh.p = pl
-	//rh.cnt = board
-	rh.db = db
-	rh.t = template.Must(template.ParseFiles("./web/template/main.html", "./web/template/header.html", "./web/template/footer.html"))
-	return &rh, nil
+func NewRootHandler(db *database.Database, locale *message.Printer) (*rootHandler, error) {
+	h := rootHandler{}
+	h.db = db
+	fmap := template.FuncMap{
+		"translate": locale.Sprintf,
+	}
+	t := template.New("main")
+	h.t = template.Must(t.Funcs(fmap).ParseFiles("./web/template/main.html", "./web/template/header.html", "./web/template/footer.html"))
+	return &h, nil
 }
 
-func NewAboutHandler() *aboutHandler {
-	ah := aboutHandler{}
-	ah.t = template.Must(template.ParseFiles("./web/template/header.html", "./web/template/footer.html", "./web/template/about.html"))
-	return &ah
+func NewAboutHandler(locale *message.Printer) *aboutHandler {
+	h := aboutHandler{}
+	fmap := template.FuncMap{
+		"translate": locale.Sprintf,
+	}
+	t := template.New("main")
+	h.t = template.Must(t.Funcs(fmap).ParseFiles("./web/template/header.html", "./web/template/footer.html", "./web/template/about.html"))
+	return &h
 }

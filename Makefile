@@ -69,6 +69,9 @@ minor:
 	$(call update,2,minor)
 path:
 	$(call update,3,path)
+	@git tag "$n"
+	@git commit -am "Bumped to version $n"
+	@git push --tags
 	@echo $(n)
 
 build:

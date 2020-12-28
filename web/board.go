@@ -2,9 +2,10 @@ package web
 
 import (
 	"fmt"
-	"github.com/3hajk/vending_machine/controller"
+	"github.com/3hajk/vending_local_site/controller"
 	"github.com/3hajk/vending_machine/controller/board"
 	"github.com/gorilla/schema"
+	"golang.org/x/text/message"
 	"html/template"
 	"log"
 	"net/http"
@@ -28,10 +29,14 @@ type boardTareHandler struct {
 type boardSanitizeHandler struct {
 }
 
-func NewBoardHandler() *boardHandler {
-	rh := boardHandler{}
-	rh.t = template.Must(template.ParseFiles("./web/template/board.html", "./web/template/header.html", "./web/template/footer.html"))
-	return &rh
+func NewBoardHandler(locale *message.Printer) *boardHandler {
+	h := boardHandler{}
+	fmap := template.FuncMap{
+		"translate": locale.Sprintf,
+	}
+	t := template.New("board")
+	h.t = template.Must(t.Funcs(fmap).ParseFiles("./web/template/board.html", "./web/template/header.html", "./web/template/footer.html"))
+	return &h
 }
 
 func NewOutsHandler() *boardOutsHandler {
@@ -39,17 +44,24 @@ func NewOutsHandler() *boardOutsHandler {
 	return &rh
 }
 
-func NewFillingHandler() *boardFillingHandler {
+func NewFillingHandler(locale *message.Printer) *boardFillingHandler {
 	rh := boardFillingHandler{}
 
-	rh.t = template.Must(template.ParseFiles("./web/template/board.html", "./web/template/header.html", "./web/template/footer.html"))
+	fmap := template.FuncMap{
+		"translate": locale.Sprintf,
+	}
+	t := template.New("board")
+	rh.t = template.Must(t.Funcs(fmap).ParseFiles("./web/template/board.html", "./web/template/header.html", "./web/template/footer.html"))
 	return &rh
 }
 
-func NewTareHandler() *boardTareHandler {
+func NewTareHandler(locale *message.Printer) *boardTareHandler {
 	rh := boardTareHandler{}
-
-	rh.t = template.Must(template.ParseFiles("./web/template/board.html", "./web/template/header.html", "./web/template/footer.html"))
+	fmap := template.FuncMap{
+		"translate": locale.Sprintf,
+	}
+	t := template.New("board")
+	rh.t = template.Must(t.Funcs(fmap).ParseFiles("./web/template/board.html", "./web/template/header.html", "./web/template/footer.html"))
 	return &rh
 }
 
@@ -240,16 +252,40 @@ func genBoardConfig() *controller.BoardConfig {
 		CleaningWater2:    10,
 		CleaningProduct:   10,
 	}
+
+	status := board.VendingStatus{
+		1,
+		50,
+		"Нет давления",
+		795,
+		111,
+		1,
+		1,
+		409,
+		"Необходимое давление не установлено",
+		20,
+		96,
+		1,
+		1,
+		1600,
+		100500,
+		1,
+	}
+
 	return &controller.BoardConfig{
 		template.HTML("Board"),
 		&drain,
 		&tare,
 		&outs,
 		&sntz,
+		&status,
 		template.HTML(success),
 		!serviceMode,
 		nil,
 		errors,
+		nil,
+		"",
+		1,
 	}
 
 }

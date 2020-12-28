@@ -1,13 +1,32 @@
 {{define "system"}}
     {{template "header" .}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/assets/jquery.min.js"></script>
+    <script src="/assets/timepicker.min.js"></script>
+    <link href="/assets/timepicker.min.css" rel="stylesheet"/>
     <script >
         function update_cmd(cmd) {
-
-            val = document.getElementById("vending-"+cmd+"-input").value
-
-            console.log(val)
-            console.log(document.getElementById("vending-"+cmd+"-input"))
+            var val = ""
+            switch (cmd) {
+                case "lang":
+                    var language = document.getElementById("language");
+                    val = language.options[language.selectedIndex].value;
+                    break
+                case "verify":
+                    var verify = document.getElementById("verify");
+                    val = verify.options[verify.selectedIndex].value;
+                    break
+                case "board_watchdog":
+                    var boardWatchdog = document.getElementById("board_watchdog");
+                    val = boardWatchdog.options[boardWatchdog.selectedIndex].value;
+                    break
+                case "expend-notify":
+                    var notify = document.getElementById("expend-notify");
+                    val = notify.options[notify.selectedIndex].value;
+                    break
+                default:
+                    val = document.getElementById("vending-" + cmd + "-input").value
+                    break
+            }
             $.post("/system_cmd",
                 {
                     name: "post_cmd",
@@ -16,63 +35,291 @@
                 },
                 function(data,status){
                     console.log("Status: " + status);
+                    alert({{ translate "param_update"}})
+                    document.location.reload();
+                });
+        }
+        function load_imei(){
+            $.post("/system_cmd",
+                {
+                    name: "post_cmd",
+                    cmd: "load-imei",
+                },
+                function(data,status){
+                    console.log("Status: " + status);
+                    alert({{ translate "success"}})
+                    document.location.reload();
+                });
+        }
+
+        function reboot(){
+            $.post("/system_cmd",
+                {
+                    name: "post_cmd",
+                    cmd: "reboot",
+                },
+                function(data,status){
+                    console.log("Status: " + status);
+                    alert({{ translate "success"}})
+                    document.location.reload();
+                });
+        }
+
+        function update_schedule(){
+            var time = document.getElementById('time');
+            var time2 = document.getElementById('time2');
+            var timezone = document.getElementById("timeZone");
+            $.post("/system_cmd",
+                {
+                    name: "post_cmd",
+                    cmd: "set-schedule",
+                    start: time.value,
+                    stop: time2.value,
+                    zone: timezone.options[timezone.selectedIndex].value
+                },
+                function(data,status){
+                    console.log("Status: " + status);
+                    alert("Success")
+                    document.location.reload();
                 });
         }
     </script>
-
     <div class="content">
-        <h2>System Setup</h2>
-        <div>This is the System Setup page</div>
+        <h2>{{translate "system_setup"}}</h2>
+        {{if lt 1 .UserRole}}
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "proto"}}</label>
+                <div class="input-group col-sm-3">
+                    <input type="text" class="form-control" id="vending-proto-input" placeholder="PROTO" value="{{ .Proto }}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-proto-button" type="button" onclick="update_cmd('proto')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "imei"}}</label>
+                <div class="input-group col-sm-3">
+                    <input type="text" class="form-control" id="vending-imei-input" value="{{ .Imei }}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-imei-button" type="button" onclick="update_cmd('imei')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                    <button class="btn btn-success" id="vending-address-button" type="button" onclick="load_imei()" {{ if .Mode }}disabled{{ end }}>{{translate "load" "imei"}} </button>
+                </div>
 
-        <div class="form-group row align-items-center my-0">
-            <label class="col-sm-3 col-form-label text-right">PROTO</label>
-            <div class="input-group col-sm-8">
-                <input type="text" class="form-control" id="vending-proto-input" placeholder="PROTO" value="{{ .Proto }}" {{ if .Mode }}disabled{{ end }}>
-                <div class="input-group-append">
-                    <button class="btn btn-success" id="vending-proto-button" type="button" onclick="update_cmd('proto')" {{ if .Mode }}disabled{{ end }}>Update</button>
+                <div class="w-100">
+                    <hr my-0>
                 </div>
             </div>
-            <div class="w-100">
-                <hr my-0>
-            </div>
-        </div>
-        <div class="form-group row align-items-center my-0">
-            <label class="col-sm-3 col-form-label text-right">IMEI</label>
-            <div class="input-group col-sm-8">
-                <input type="text" class="form-control" id="vending-imei-input" value="{{ .Imei }}" {{ if .Mode }}disabled{{ end }}>
-                <div class="input-group-append">
-                    <button class="btn btn-success" id="vending-imei-button" type="button" onclick="update_cmd('imei')" {{ if .Mode }}disabled{{ end }}>Update</button>
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "notify_group"}}</label>
+                <div class="input-group col-sm-3">
+                    <input type="text" class="form-control" id="vending-notify-input" value="{{ .NotifyId }}" {{ if .Mode }}disabled{{ end }}>
                 </div>
-            </div>
-            <div class="w-100">
-                <hr my-0>
-            </div>
-        </div>
-        <div class="form-group row align-items-center my-0">
-            <label class="col-sm-3 col-form-label text-right">Notification Group ID</label>
-            <div class="input-group col-sm-8">
-                <input type="text" class="form-control" id="vending-notify-input" value="{{ .NotifyId }}" {{ if .Mode }}disabled{{ end }}>
                 <div class="input-group-append">
-                    <button class="btn btn-success" id="vending-notify-button" type="button" onclick="update_cmd('notify')" {{ if .Mode }}disabled{{ end }}>Update</button>
+                    <button class="btn btn-success" id="vending-notify-button" type="button" onclick="update_cmd('notify')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
                 </div>
-            </div>
-            <div class="w-100">
-                <hr my-0>
-            </div>
-        </div>
-        <div class="form-group row align-items-center my-0">
-            <label class="col-sm-3 col-form-label text-right">Board ID</label>
-            <div class="input-group col-sm-8">
-                <input type="text" class="form-control" id="vending-address-input" placeholder="1" value="{{ .BoardAddress }}" {{ if .Mode }}disabled{{ end }}>
-                <div class="input-group-append">
-                    <button class="btn btn-success" id="vending-address-button" type="button" onclick="update_cmd('address')" {{ if .Mode }}disabled{{ end }}>Update</button>
-                </div>
-            </div>
-            <div class="w-100">
-                <hr my-0>
-            </div>
-        </div>
 
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "verify_params"}}</label>
+                <div class="input-group col-sm-3">
+                    <select id="verify">
+                        <option value="yes" {{ if eq .Verify "yes" }}selected="selected"{{ end }}>yes</option>
+                        <option value="no" {{ if eq .Verify "no" }}selected="selected"{{ end }}>no</option>
+                    </select>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-verify-button" type="button" onclick="update_cmd('verify')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "board_watchdog"}}</label>
+                <div class="input-group col-sm-3">
+                    <select id="board_watchdog">
+                        <option value="yes" {{ if eq .BoardWatchdog "yes" }}selected="selected"{{ end }}>yes</option>
+                        <option value="no" {{ if eq .BoardWatchdog "no" }}selected="selected"{{ end }}>no</option>
+                    </select>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-board_watchdog-button" type="button" onclick="update_cmd('board_watchdog')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "lang"}}</label>
+                <div class="input-group col-sm-3">
+                    <select id="language">
+                        {{ range .LangTpl }}
+                            <option value="{{ .Id }}" {{ if eq .Id $.Lang }}selected="selected"{{ end }}>{{ .Text }}</option>
+                        {{ end }}
+                    </select>
+
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-lang-button" type="button" onclick="update_cmd('lang')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "board_id"}}</label>
+                <div class="input-group col-sm-3">
+                    <input type="text" class="form-control" id="vending-boardId-input" placeholder="1" value="{{ .BoardAddress }}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-boardId-button" type="button" onclick="update_cmd('boardId')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+            <div class="form-group row align-items-center my-1">
+                <label class="col-sm-3 col-form-label text-right">{{translate "schedule"}}</label>
+                <div class="input-group col-sm-1">
+                    <label>{{translate "start_time"}}:</label>
+                </div>
+                <div class="input-group col-sm-1">
+                    <div class="col-sm-1">
+                        <input type="text" id="time" value="{{ .Scheduler.Start }}" placeholder="Time">
+                    </div>
+                </div>
+                <div class="input-group col-sm-1">
+                    <label >{{translate "end_time"}}:</label>
+                </div>
+                <div class="input-group col-sm-1">
+                    <div class="col-sm-1">
+                        <input type="text" id="time2" value="{{ .Scheduler.Stop }}" class="center" placeholder="Time">
+                    </div>
+                </div>
+                <script>
+                    var time2 = document.getElementById('time2');
+                    var timepicker = new TimePicker(['time', 'time2'], {
+                        lang: 'en',
+                        theme: 'blue-grey',
+                    });
+                    timepicker.on('change', function (evt) {
+                        var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+
+                        if (evt.element.id === 'time2') {
+                            time2.value = value;
+                        } else {
+                            evt.element.value = value;
+                        }
+                    });
+                </script>
+                <div class="input-group col-sm-1">
+                    <select id="timeZone">
+                        {{ range .STempl }}
+                            <option value="{{ .Value }}" {{ if eq .Value $.Scheduler.Timezone }}selected="selected"{{ end }}>{{ .Text }}</option>
+                        {{ end }}
+                    </select>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-schedule-button" type="button" onclick="update_schedule()" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "temperature_max_set"}}</label>
+                <div class="input-group col-sm-3">
+                    <input type="text" class="form-control" id="vending-t_max-input" placeholder="1" value="{{ .Temperature }}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-t_max-button" type="button" onclick="update_cmd('t_max')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "expends_limit_set"}}</label>
+                <div class="input-group col-sm-3">
+                    <input type="text" class="form-control" id="vending-expends-input" placeholder="1" value="{{ .Expends }}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-expends-button" type="button" onclick="update_cmd('expends')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "labels_limit_set"}}</label>
+                <div class="input-group col-sm-3">
+                    <input type="text" class="form-control" id="vending-labels-input" placeholder="1" value="{{ .Labels }}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-labels-button" type="button" onclick="update_cmd('labels')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "product_limit_set"}}</label>
+                <div class="input-group col-sm-3">
+                    <input type="text" class="form-control" id="vending-product-input" placeholder="1" value="{{ .Product }}" {{ if .Mode }}disabled{{ end }}>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-product-button" type="button" onclick="update_cmd('product')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+            <div class="form-group row align-items-center my-0">
+                <label class="col-sm-3 col-form-label text-right">{{translate "expent_notify"}}</label>
+                <div class="input-group col-sm-3">
+                    <select id="expend-notify">
+                        {{ range .ExpendTpl }}
+                            <option value="{{ .Id }}" {{ if eq .Id $.ExpendNotify }}selected="selected"{{ end }}>{{ .Text }}</option>
+                        {{ end }}
+                    </select>
+
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-expend-notify-button" type="button" onclick="update_cmd('expend-notify')" {{ if .Mode }}disabled{{ end }}>{{translate "set"}}</button>
+                </div>
+
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center my-0">
+                <div class="input-group col-sm-3">
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="vending-reboot-button" type="button" onclick="reboot()" {{ if .Mode }}disabled{{ end }}>{{translate "reboot"}}</button>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
+            </div>
+        {{else}}
+            {{translate "access_denied"}}
+        {{end}}
     </div>
     {{template "footer" .}}
 {{end}}

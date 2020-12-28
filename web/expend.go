@@ -5,6 +5,7 @@ import (
 	"github.com/3hajk/vending_machine/database"
 	"github.com/gorilla/schema"
 	"github.com/rivo/users"
+	"golang.org/x/text/message"
 	"html/template"
 	"log"
 	"net/http"
@@ -15,11 +16,14 @@ type expendHandler struct {
 	t  *template.Template
 }
 
-func NewExpendHandler(db *database.Database) *expendHandler {
+func NewExpendHandler(db *database.Database, locale *message.Printer) *expendHandler {
 	h := expendHandler{}
 	h.db = db
-
-	h.t = template.Must(template.ParseFiles("./web/template/expend.html", "./web/template/header.html", "./web/template/footer.html"))
+	fmap := template.FuncMap{
+		"translate": locale.Sprintf,
+	}
+	t := template.New("board_cmd")
+	h.t = template.Must(t.Funcs(fmap).ParseFiles("./web/template/expend.html", "./web/template/header.html", "./web/template/footer.html"))
 	return &h
 }
 

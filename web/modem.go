@@ -3,6 +3,7 @@ package web
 import (
 	"github.com/3hajk/vending_machine/database"
 	"github.com/rivo/users"
+	"golang.org/x/text/message"
 	"html/template"
 	"net/http"
 )
@@ -12,11 +13,14 @@ type modemHandler struct {
 	t  *template.Template
 }
 
-func NewModemHandler(db *database.Database) *modemHandler {
+func NewModemHandler(db *database.Database, locale *message.Printer) *modemHandler {
 	h := modemHandler{}
 	h.db = db
-
-	h.t = template.Must(template.ParseFiles("./web/template/modem.html", "./web/template/header.html", "./web/template/footer.html"))
+	fmap := template.FuncMap{
+		"translate": locale.Sprintf,
+	}
+	t := template.New("modem")
+	h.t = template.Must(t.Funcs(fmap).ParseFiles("./web/template/modem.html", "./web/template/header.html", "./web/template/footer.html"))
 	return &h
 }
 

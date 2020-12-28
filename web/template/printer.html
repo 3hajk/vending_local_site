@@ -1,32 +1,332 @@
 {{define "printer"}}
+
     {{template "header" .}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: absolute; /* Stay in place */
+            z-index: 1999; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+        /* Modal Content (image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        /* Caption of Modal Image */
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+
+        /* Add Animation */
+        .modal-content, #caption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 100% Image Width on Smaller Screens */
+        @media only screen and (max-width: 700px){
+            .modal-content {
+                width: 100%;
+            }
+        }
+
+    </style>
+    <script src="/assets/jquery.min.js"></script>
     <script >
 
         $(document).ready(function(){
 
-            button = document.getElementById("post-btn")
-            button.addEventListener('click', async _ => {
-                $.post("/printer",
-                {
-                    name: "test_print",
-                    file: "./label_template/500.bmp"
-                },
-                function(data,status){
-                    console.log("Status: " + status);
-                });
-            });
+            button05 = document.getElementById("post-btn-05")
+            button10 = document.getElementById("post-btn-10")
+            button15 = document.getElementById("post-btn-15")
+            button20 = document.getElementById("post-btn-20")
+
+            button05.addEventListener('click', async _ => { print(500)});
+            button10.addEventListener('click', async _ => { print(1000)});
+            button15.addEventListener('click', async _ => { print(1500)});
+            button20.addEventListener('click', async _ => { print(2000)});
+
+            buttonPreview05 = document.getElementById("preview-btn-05")
+            buttonPreview10 = document.getElementById("preview-btn-10")
+            buttonPreview15 = document.getElementById("preview-btn-15")
+            buttonPreview20 = document.getElementById("preview-btn-20")
+
+            buttonPreview05.addEventListener('click', async _ => { open_preview(500)});
+            buttonPreview10.addEventListener('click', async _ => { open_preview(1000)});
+            buttonPreview15.addEventListener('click', async _ => { open_preview(1500)});
+            buttonPreview20.addEventListener('click', async _ => { open_preview(2000)});
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            var modal = document.getElementById('myModal');
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            document.getElementById("udpate").addEventListener('click', async _ => {send_cmd("update")});
+            {{if .PrinterInit}}
+            document.getElementById("rewind").addEventListener('click', async _ => {send_cmd("rewind")});
+            {{if .PrinterState.LabelCheck}}
+            document.getElementById("disable_check").addEventListener('click', async _ => {send_cmd("disable_check")});
+            {{else}}
+            document.getElementById("enable_check").addEventListener('click', async _ => {send_cmd("enable_check")});
+            {{end}}
+            {{if .PrinterState.LabelType}}
+            document.getElementById("label").addEventListener('click', async _ => {send_cmd("label")});
+            {{else}}
+            document.getElementById("ribbon").addEventListener('click', async _ => {send_cmd("ribbon")});
+            {{end}}
+            document.getElementById("reboot").addEventListener('click', async _ => {send_cmd("reboot")});
+            {{end}}
         });
 
-        </script>
+        function print(type){
+            $.post("/printer_setup",
+                {
+                    name: "test_print",
+                    file: "./label_template/"+type+".bmp"
+                },
+                function(data,status){
+                    alert({{translate "print_label"}})
+                    document.location.reload();
+                });
+        }
 
+        function send_cmd(cmd){
+            $.post("/printer_setup",
+                {
+                    name: cmd
+                },
+                function(data,status){
+                    alert({{ translate "success"}})
+                    document.location.reload();
+                });
+        }
+
+        function open_preview(type) {
+            console.debug("open_preview")
+            var modal = document.getElementById('myModal');
+            // Get the image and insert it inside the modal - use its "alt" text as a caption
+            // var modalImg = document.getElementById("img01");
+            var captionText = document.getElementById("caption");
+            modal.style.display = "block";
+            captionText.innerHTML = {{translate "label_preview"}};
+            var url = '/printer_preview?label='+type;
+
+            // const formData = new FormData();
+            //
+            // formData.append('username', 'abc123');
+            // formData.append('type', type);
+
+            var options = {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'default',
+                //body:formData
+            };
+            var request = new Request(url);
+            fetch(request, options).then((response) => {
+                response.arrayBuffer().then((buffer) => {
+                    var binary = '';
+                    var bytes = [].slice.call(new Uint8Array(buffer));
+                    bytes.forEach((b) => binary += String.fromCharCode(b));
+                    var modalImg = document.getElementById("img01");
+                    modalImg.src = binary
+                    modalImg.alt = {{translate "label_preview"}};
+                });
+            });
+        }
+    </script>
     <div class="content">
-        <h2>Printer Setup</h2>
-        <div>This is the Printer Setup page</div>
-        <div class="col-12 text-center">
-            <button class="btn btn-info print-action" id="post-btn" >Тестовая Печать</button>
-            <button class="btn btn-info update-labels">Обновить Этикетки</button>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <span class="close">×</span>
+            <img class="modal-content" id="img01">
+            <div id="caption"></div>
         </div>
+
+        <h2>{{translate "printer_setup"}}</h2>
+        <div class="col-12 text-center">
+            <button class="btn btn-info print-action" id="post-btn-05" {{ if not .PrinterInit }}disabled{{ end }} >{{translate "print_label_05"}}</button>
+            <button class="btn btn-info print-action" id="post-btn-10" {{ if not .PrinterInit }}disabled{{ end }}>{{translate "print_label_10"}}</button>
+            <button class="btn btn-info print-action" id="post-btn-15" {{ if not .PrinterInit }}disabled{{ end }}>{{translate "print_label_15"}}</button>
+            <button class="btn btn-info print-action" id="post-btn-20" {{ if not .PrinterInit }}disabled{{ end }}>{{translate "print_label_20"}}</button>
+            <button class="btn btn-info update-labels" id="udpate">{{translate "update_label"}}</button>
+        </div>
+        <div class="w-100">
+            <hr my-1>
+        </div>
+        <div class="col-12 text-center">
+            <button class="btn btn-info print-action" id="preview-btn-05">{{translate "preview_label_05"}}</button>
+            <button class="btn btn-info print-action" id="preview-btn-10">{{translate "preview_label_10"}}</button>
+            <button class="btn btn-info print-action" id="preview-btn-15">{{translate "preview_label_15"}}</button>
+            <button class="btn btn-info print-action" id="preview-btn-20">{{translate "preview_label_20"}}</button>
+        </div>
+        <div class="w-100">
+            <hr my-1>
+        </div>
+        {{if .PrinterInit}}
+            <div class="col-12 text-center">
+
+
+                <button class="btn btn-info update-labels" id="rewind" {{ if not .PrinterInit }}disabled{{ end }}>{{translate "rewind"}}</button>
+
+                {{if .PrinterState.LabelCheck}}
+                    <button class="btn btn-info update-labels" id="disable_check" {{ if not .PrinterInit }}disabled{{ end }}>{{translate "disable_check_label"}}</button>
+                {{else}}
+                    <button class="btn btn-info update-labels" id="enable_check" {{ if not .PrinterInit }}disabled{{ end }}>{{translate "enable_check_label"}}</button>
+                {{end}}
+
+                {{if .PrinterState.LabelType}}
+                    <button class="btn btn-info update-labels" id="label" {{ if not .PrinterInit }}disabled{{ end }}>{{translate "label"}}</button>
+                {{else}}
+                    <button class="btn btn-info update-labels" id="ribbon" {{ if not .PrinterInit }}disabled{{ end }}>{{translate "ribbon"}}</button>
+                {{end}}
+                <button class="btn btn-info update-labels" id="reboot" {{ if not .PrinterInit }}disabled{{ end }}>{{translate "reboot_printer"}}</button>
+
+            </div>
+            <div class="w-100">
+                <hr my-1>
+            </div>
+
+
+            <div>
+                <h1>{{translate "printer_status"}}</h1>
+                <table>
+                    <tr>
+                        <th>{{translate "error_msg"}}</th>
+                        <td>{{ .Printer.ErrorCode}} ({{ .Status }})</td>
+                    </tr>
+
+                    <tr>
+                        <th>{{translate "firmware_version"}}</th>
+                        <td>{{.Printer.FirmwareVersionH }}:{{.Printer.FirmwareVersionL}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "PE_sensor"}}</th>
+                        <td>{{ .PrinterSensor.SensorPE }} {{translate "volt"}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "LAB_sensor"}}</th>
+                        <td>{{.PrinterSensor.SensorLAB}} {{translate "volt"}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "head_temperature"}}</th>
+                        <td>{{.Printer.SensorTM}} &deg;C</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "RUL_sensor"}}</th>
+                        <td>{{ .PrinterSensor.SensorRUL }} {{translate "volt"}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "darkness"}}</th>
+                        <td>{{.Printer.PRMDarkness}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="w-100">
+                <hr my-1>
+            </div>
+            <div>
+                <h1>{{translate "printer_state"}}</h1>
+                <table>
+                    <tr>
+                        <th>{{translate "label_detect"}}</th>
+                        <td>{{if .PrinterState.LabelDetected}}{{translate "seted"}}{{else}}{{translate "not_set"}}{{end}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "label_printed"}}</th>
+                        <td>{{if .PrinterState.LabelPrinted }}{{translate "printed"}}{{else}}{{translate "no_printed"}}{{end}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "label_positioned"}}</th>
+                        <td>{{if .PrinterState.LabelPositioned }}{{translate "yes"}}{{else}}{{translate "no"}}{{end}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "headup_state"}}</th>
+                        <td>{{if .PrinterState.HeadUpState}}{{translate "raised"}}{{else}}{{translate "ok"}}{{end}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "print_duplicate"}}</th>
+                        <td>{{if .PrinterState.PrintDuplicate}}{{translate "available"}}{{else}}{{translate "unavailable"}}{{end}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "label_type"}}</th>
+                        <td>{{if .PrinterState.LabelType }}{{translate "ribbon"}}{{else}}{{translate "label"}}{{end}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "label_check"}}</th>
+                        <td>{{if .PrinterState.LabelCheck}}{{translate "enable"}}{{else}}{{translate "disable"}}{{end}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "memory_test_filed"}}</th>
+                        <td>{{if .PrinterState.MemoryTestFiled}}{{translate "successed"}}{{else}}{{translate "error"}}{{end}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "watchdog_restarting"}}</th>
+                        <td>{{if .PrinterState.WatchdogRestarting}}{{translate "yes"}}{{else}}{{translate "no"}}{{end}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{translate "pe_sensor_state"}}</th>
+                        <td>{{if .PrinterState.PESensorState}}{{translate "label"}}{{else}}{{translate "void"}}{{end}}</td>
+                    </tr>
+                </table>
+            </div>
+        {{else}}
+            <div>
+                <h4>{{translate "printer_not_init"}}</h4>
+            </div>
+        {{end}}
         <div class="w-100">
             <hr my-1>
         </div>

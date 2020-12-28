@@ -1,9 +1,8 @@
 package web
 
 import (
-	"github.com/3hajk/vending_machine/controller"
-	"github.com/3hajk/vending_machine/controller/board"
 	"github.com/rivo/users"
+	"golang.org/x/text/message"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,12 +13,16 @@ type boardViewHandler struct {
 }
 
 type boardCmdHandler struct {
-	cnt *controller.Controller
+	//cnt *controller.Controller
 }
 
-func NewBoardViewHandler() *boardViewHandler {
+func NewBoardViewHandler(locale *message.Printer) *boardViewHandler {
 	h := boardViewHandler{}
-	h.t = template.Must(template.ParseFiles("./web/template/board_cmd.html", "./web/template/header.html", "./web/template/footer.html"))
+	fmap := template.FuncMap{
+		"translate": locale.Sprintf,
+	}
+	t := template.New("board_cmd")
+	h.t = template.Must(t.Funcs(fmap).ParseFiles("./web/template/board_cmd.html", "./web/template/header.html", "./web/template/footer.html"))
 	return &h
 }
 
@@ -48,52 +51,52 @@ func (h *boardCmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		log.Println(r.PostForm)
 		switch r.PostForm["cmd"][0] {
 		case "enableLock":
-			h.cnt.Command(board.Command.EnableLock, nil)
+			//h.cnt.Command(board.Command.EnableLock, nil)
 			return
 		case "disableLock":
-			h.cnt.Command(board.Command.DisableLock, nil)
+			//h.cnt.Command(board.Command.DisableLock, nil)
 			return
 		case "oldHead":
-			h.cnt.Command(board.Command.UseOldPegas, nil)
+			//h.cnt.Command(board.Command.UseOldPegas, nil)
 			return
 		case "newHead":
-			h.cnt.Command(board.Command.UseNewPegas, nil)
+			//h.cnt.Command(board.Command.UseNewPegas, nil)
 			return
 		case "usePressureSwitch":
-			h.cnt.Command(board.Command.UsePressureSwitch, nil)
+			//h.cnt.Command(board.Command.UsePressureSwitch, nil)
 			return
 		case "unUsePressureSwitch":
-			h.cnt.Command(board.Command.UnUsePressureSwitch, nil)
+			//h.cnt.Command(board.Command.UnUsePressureSwitch, nil)
 			return
 		case "vol1":
-			h.cnt.Command(board.Command.PresetSettings1, nil)
+			//h.cnt.Command(board.Command.PresetSettings1, nil)
 			return
 		case "vol2":
-			h.cnt.Command(board.Command.PresetSettings2, nil)
+			//h.cnt.Command(board.Command.PresetSettings2, nil)
 			return
 		case "vol3":
-			h.cnt.Command(board.Command.PresetSettings3, nil)
+			//h.cnt.Command(board.Command.PresetSettings3, nil)
 			return
 		case "vol4":
-			h.cnt.Command(board.Command.PresetSettings4, nil)
+			//h.cnt.Command(board.Command.PresetSettings4, nil)
 			return
 		case "220":
-			h.cnt.Command(board.Command.StartCalibrationMode, nil)
+			//h.cnt.Command(board.Command.StartCalibrationMode, nil)
 			return
 		case "230":
-			h.cnt.Command(board.Command.StartSanitise, nil)
+			//h.cnt.Command(board.Command.StartSanitise, nil)
 			return
 		case "240":
-			h.cnt.Command(board.Command.StartFillingSystem, nil)
+			//h.cnt.Command(board.Command.StartFillingSystem, nil)
 			return
 		case "250":
-			h.cnt.Command(board.Command.StopFillingSystem, nil)
+			//h.cnt.Command(board.Command.StopFillingSystem, nil)
 			return
 		case "241":
-			h.cnt.Command(board.Command.StartCheckKegPressure, nil)
+			//h.cnt.Command(board.Command.StartCheckKegPressure, nil)
 			return
 		case "251":
-			h.cnt.Command(board.Command.StopCheckKegPressure, nil)
+			//h.cnt.Command(board.Command.StopCheckKegPressure, nil)
 			return
 		}
 		w.WriteHeader(http.StatusOK)

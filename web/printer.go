@@ -2,7 +2,7 @@ package web
 
 import (
 	"github.com/rivo/users"
-	//"github.com/3hajk/vending_machine/printer"
+	"golang.org/x/text/message"
 	"html/template"
 	"log"
 	"net/http"
@@ -12,10 +12,13 @@ type printerHandler struct {
 	t *template.Template
 }
 
-func NewPrinterHandler() *printerHandler {
+func NewPrinterHandler(locale *message.Printer) *printerHandler {
 	rh := printerHandler{}
-
-	rh.t = template.Must(template.ParseFiles("./web/template/printer.html", "./web/template/header.html", "./web/template/footer.html"))
+	fmap := template.FuncMap{
+		"translate": locale.Sprintf,
+	}
+	t := template.New("printer")
+	rh.t = template.Must(t.Funcs(fmap).ParseFiles("./web/template/printer.html", "./web/template/header.html", "./web/template/footer.html"))
 	return &rh
 }
 

@@ -3,16 +3,16 @@
     <html>
     <head>
         <title>{{.Title}}</title>
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/assets/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css">
         <style type="text/css">
             body {padding-bottom: 70px;}
             .content {margin:10px;}
-             table {
-                 width: 100%; /* Ширина таблицы */
-                 border: 4px double black; /* Рамка вокруг таблицы */
-                 border-collapse: collapse; /* Отображать только одинарные линии */
-             }
+            table {
+                width: 100%; /* Ширина таблицы */
+                border: 4px double black; /* Рамка вокруг таблицы */
+                border-collapse: collapse; /* Отображать только одинарные линии */
+            }
             th {
                 text-align: left; /* Выравнивание по левому краю */
                 background: #ccc; /* Цвет фона ячеек */
@@ -24,34 +24,63 @@
                 border: 1px solid black; /* Граница вокруг ячеек */
             }
         </style>
-{{/*        <meta http-equiv="refresh" content="30"/>*/}}
+        {{/*        <meta http-equiv="refresh" content="30"/>*/}}
     </head>
     <body>
+    {{/*    <style>*/}}
+    {{/*        .canvas-wrap {*/}}
+    {{/*            position: relative;*/}}
+    {{/*            padding: 30px;*/}}
+    {{/*        }*/}}
+    {{/*        #canvas {*/}}
+    {{/*            position: absolute;*/}}
+    {{/*            top: 0;*/}}
+    {{/*            right: 0;*/}}
+    {{/*            bottom: 0;*/}}
+    {{/*            left: 0;*/}}
+    {{/*        }*/}}
+    {{/*        .plane {*/}}
+    {{/*            width: 100%;*/}}
+    {{/*            height: 500px;*/}}
+    {{/*        }*/}}
+    {{/*        .plane img {*/}}
+    {{/*            display: none;*/}}
+    {{/*        }*/}}
+    {{/*    </style>*/}}
+    {{/*    <script src="/assets/curtains.min.js"></script>*/}}
+    {{/*    <script src="/assets/flag.js"></script>*/}}
+    {{/*    <div class="canvas-wrap">*/}}
+    {{/*        <div id="canvas"></div>*/}}
+    {{/*        <div class="plane">*/}}
+    {{/*            <img src="/assets/flag.jpg" crossorigin="anonymous" />*/}}
+    {{/*        </div>*/}}
+    {{/*    </div>*/}}
+
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Vending Machine App</a>
+            <a class="navbar-brand" href="/">{{translate "title"}}</a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/">Main</a></li>
-                <li><a href="board_view">Board Commands</a></li>
-                <li><a href="/expend">Extent Material</a></li>
-                <li><a href="/board">Board Sensor Setup</a></li>
-                <li><a href="/printer">Printer Setup</a></li>
-                <li><a href="/modem">Modem Setup</a></li>
-                <li><a href="/media">Media Setup</a></li>
-                <li><a href="/system">System Setup</a></li>
-                <li><a href="/about">About</a></li>
+                <li><a href="/">{{translate "main"}}</a></li>
+                <li><a href="board_view">{{translate "board_commands"}}</a></li>
+                <li><a href="/expend_setup">{{translate "extended_material"}}</a></li>
+                <li><a href="/board_setup">{{translate "board_setup"}}</a></li>
+                <li><a href="/printer_setup">{{translate "printer_setup"}}</a></li>
+                <li><a href="/modem_setup">{{translate "modem_setup"}}</a></li>
+                <li><a href="/media_setup">{{translate "media_setup"}}</a></li>
+                <li><a href="/vending_setup">{{translate "system_setup"}}</a></li>
+                <li><a href="/about">{{translate "about"}}</a></li>
             </ul>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                 {{/* We know if a user is logged in or not. */}}
                 {{ if .User }}
-                    <li>Logged in as {{ .UserEmail }}</li>
-                    <li><form action="/logout" method="post"><button>Log out</button></form></li>
+                    <li>{{translate "logged_in_as"}} {{ .UserEmail }}</li>
+                    <li><form action="/logout" method="post"><button>{{translate "log_out"}}</button></form></li>
                 {{ else }}
-                    <li><a href="/login">Log in</a></li>
+                    <li><a href="/login">{{translate "log_in"}}</a></li>
                 {{ end }}
             </ul>
         </div>

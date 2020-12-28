@@ -1,12 +1,45 @@
 {{define "expend"}}
     {{template "header" .}}
-    <div class="content">
-        <h2>Expend Setup</h2>
-        <div>This is the Expend Setup page</div>
+    <script src="/assets/jquery.min.js"></script>
+    <script >
 
+        $(document).ready(function(){
+            product = document.getElementById("product");
+            document.getElementById("btn-10").addEventListener('click', async _ => {
+                if(product.value - 10000 >0){
+                    product.value = parseInt(product.value) - 10000;
+                }else{
+                    product.value = 0;
+                }
+
+            })
+            document.getElementById("btn-20").addEventListener('click', async _ => {product.value  = parseInt(product.value) + 20000;pValid();});
+            document.getElementById("btn-30").addEventListener('click', async _ => {product.value  = parseInt(product.value) + 30000;pValid();});
+            document.getElementById("btn-40").addEventListener('click', async _ => {product.value = 40000;});
+            document.getElementById("btn-50").addEventListener('click', async _ => {product.value  = parseInt(product.value) + 50000;pValid();});
+            document.getElementById("btn-60").addEventListener('click', async _ => {product.value = 60000;});
+            document.getElementById("btn-100").addEventListener('click', async _ => {product.value = 100000;});
+
+            label = document.getElementById("label")
+            btn500 = document.getElementById("btn-500").addEventListener('click', async _ => {label.value = 500})
+            btn1000 = document.getElementById("btn-1000").addEventListener('click', async _ => {label.value = 1000})
+
+            // btn20.addEventListener('click', async _ => {});
+            function pValid(){
+                if(parseInt(product.value)  >100000){
+                    product.value = 100000;
+                }
+            }
+
+        });
+    </script>
+
+
+    <div class="content">
+        <h2>{{translate "expend_material"}}</h2>
         <div class="row align-items-center">
             <div class="col-sm-8">
-                <h5><strong>Expend materials</strong></h5>
+                <h5><strong>{{translate "expend_material"}}</strong></h5>
                 <hr>
                 {{ with .Success }}
                     <p class="error" >{{ . }}</p>
@@ -14,70 +47,84 @@
             </div>
         </div>
 
-        <form action="expend" class="form-group"  method="post">
-        <div class="form-group row align-items-center mt-1">
-            <label class="col-sm-4 col-form-label text-right">Product</label>
-            <div class="col-sm-2">
+        <form action="expend_setup" class="form-group"  method="post">
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-4 col-form-label text-right">{{translate "product"}}({{translate "ml"}})</label>
+                <div class="col-sm-4">
                     {{ with .Errors.ProductResidue }}
                         <p class="error" >{{ . }}</p>
                     {{ end }}
-                <input type="text" class="form-control vending-consumables" name="product_residue" value="{{.Data.ProductResidue}}" >
+                    <input type="text" class="form-control vending-consumables" name="product_residue" id="product" value="{{.Data.ProductResidue}}" >
+                </div>
             </div>
-        </div>
-        <div class="form-group row align-items-center mt-1">
-            <label class="col-sm-4 col-form-label text-right">Bottle05</label>
-            <div class="col-sm-2">
-                {{ with .Errors.Bottle05 }}
-                    <p class="error" >{{ . }}</p>
-                {{ end }}
-                <input type="text" class="form-control vending-consumables" name="count_bottle_half" value="{{.Data.Bottle05}}">
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-4 col-form-label text-right">{{translate "keg"}}</label>
+                <div class="col-sm-4">
+                    <button class="btn btn-info" id="btn-10">-10</button>
+                    <button class="btn btn-info" id="btn-20">+20</button>
+                    <button class="btn btn-info" id="btn-30">+30</button>
+                    <button class="btn btn-info" id="btn-50">+50</button>
+                    <button class="btn btn-info" id="btn-40">20+20</button>
+                    <button class="btn btn-info" id="btn-60">30+30</button>
+                    <button class="btn btn-info" id="btn-100">50+50</button>
+                </div>
             </div>
-        </div>
-        <div class="form-group row align-items-center mt-1">
-            <label class="col-sm-4 col-form-label text-right">Bottle10</label>
-            <div class="col-sm-2">
-                {{ with .Errors.Bottle10 }}
-                    <p class="error" >{{ . }}</p>
-                {{ end }}
-                <input type="text" class="form-control vending-consumables" name="count_bottle_one" value="{{.Data.Bottle10}}">
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-4 col-form-label text-right">{{translate "bottle_05"}}</label>
+                <div class="col-sm-4">
+                    {{ with .Errors.Bottle05 }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-consumables" name="count_bottle_half" value="{{.Data.Bottle05}}">
+                </div>
             </div>
-        </div>
-        <div class="form-group row align-items-center mt-1">
-            <label class="col-sm-4 col-form-label text-right">Bottle15</label>
-            <div class="col-sm-2">
-                {{ with .Errors.Bottle15 }}
-                    <p class="error" >{{ . }}</p>
-                {{ end }}
-                <input type="text" class="form-control vending-consumables" name="count_bottle_one_half" value="{{.Data.Bottle15}}">
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-4 col-form-label text-right">{{translate "bottle_10"}}</label>
+                <div class="col-sm-4">
+                    {{ with .Errors.Bottle10 }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-consumables" name="count_bottle_one" value="{{.Data.Bottle10}}">
+                </div>
             </div>
-        </div>
-        <div class="form-group row align-items-center mt-1">
-            <label class="col-sm-4 col-form-label text-right">Bottle20</label>
-            <div class="col-sm-2">
-                {{ with .Errors.Bottle20 }}
-                    <p class="error" >{{ . }}</p>
-                {{ end }}
-                <input type="text" class="form-control vending-consumables" name="count_bottle_two" value="{{.Data.Bottle20}}">
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-4 col-form-label text-right">{{translate "bottle_15"}}</label>
+                <div class="col-sm-4">
+                    {{ with .Errors.Bottle15 }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-consumables" name="count_bottle_one_half" value="{{.Data.Bottle15}}">
+                </div>
             </div>
-        </div>
-        <div class="form-group row align-items-center mt-1">
-            <label class="col-sm-4 col-form-label text-right">Labels</label>
-            <div class="col-sm-2">
-                {{ with .Errors.Labels }}
-                    <p class="error" >{{ . }}</p>
-                {{ end }}
-                <input type="text" class="form-control vending-consumables" name="count_tickets" value="{{.Data.Labels}}">
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-4 col-form-label text-right">{{translate "bottle_20"}}</label>
+                <div class="col-sm-4">
+                    {{ with .Errors.Bottle20 }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-consumables" name="count_bottle_two" value="{{.Data.Bottle20}}">
+                </div>
             </div>
-            <div class="w-100">
-                <hr my-0>
+            <div class="form-group row align-items-center mt-1">
+                <label class="col-sm-4 col-form-label text-right">{{translate "labels"}}</label>
+                <div class="col-sm-4">
+                    {{ with .Errors.Labels }}
+                        <p class="error" >{{ . }}</p>
+                    {{ end }}
+                    <input type="text" class="form-control vending-consumables" name="count_tickets" id="label" value="{{.Data.Labels}}">
+                    <button class="btn btn-info" id="btn-500">500</button>
+                    <button class="btn btn-info" id="btn-1000">1000</button>
+                </div>
+                <div class="w-100">
+                    <hr my-0>
+                </div>
             </div>
-        </div>
-        <div class="row align-items-center">
-            <div class="col-sm-3 text-right">
+            <div class="row align-items-center">
+                <div class="col-sm-3 text-right">
 
-                <button class="btn btn-danger vending-consumables" id="consumables-save-button" type="submit">Сохранить</button>
+                    <button class="btn btn-danger vending-consumables" id="consumables-save-button" type="submit">{{translate "save"}}</button>
+                </div>
             </div>
-        </div>
         </form>
     </div>
     {{template "footer" .}}
