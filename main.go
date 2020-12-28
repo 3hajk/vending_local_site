@@ -65,10 +65,10 @@ func main() {
 	http.HandleFunc(users.Config.RouteLogOut, users.LogOut)
 
 	exph := web.NewExpendHandler(db, locale)
-	http.Handle("/expend", exph)
+	http.Handle("/expend_setup", exph)
 
 	brdh := web.NewBoardHandler(locale)
-	http.Handle("/board", brdh)
+	http.Handle("/board_setup", brdh)
 	outsh := web.NewOutsHandler()
 	http.Handle("/outs", outsh)
 	fillh := web.NewFillingHandler(locale)
@@ -79,16 +79,16 @@ func main() {
 	http.Handle("/sanitize", sntzh)
 
 	lph := web.NewPrinterHandler(locale)
-	http.Handle("/printer", lph)
+	http.Handle("/printer_setup", lph)
 
 	mdmh := web.NewModemHandler(db, locale)
-	http.Handle("/modem", mdmh)
+	http.Handle("/modem_setup", mdmh)
 	sh := web.NewSystemHandler(db, locale)
-	http.Handle("/system", sh)
+	http.Handle("/vending_setup", sh)
 	sch := web.NewSystemCmdHandler(db)
 	http.Handle("/system_cmd", sch)
 	mmdh := web.NewMediaHandler(db, locale)
-	http.Handle("/media", mmdh)
+	http.Handle("/media_setup", mmdh)
 
 	ah := web.NewAboutHandler(locale)
 	http.Handle("/about", ah)

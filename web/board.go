@@ -285,7 +285,7 @@ func genBoardConfig() *controller.BoardConfig {
 		errors,
 		nil,
 		"",
-		1,
+		3,
 	}
 
 }

@@ -197,7 +197,23 @@ func (ah *aboutHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Redirect(w, r, users.Config.RouteLogIn, 302)
 	}
-	ah.t.ExecuteTemplate(w, "about", &Page{Title: "About", UserEmail: email, User: user})
+	ver := "14 77 sdfsdf sdf sdf ds"
+	mac := "00:ed:45:Le:ww:12"
+	var d = struct {
+		Title     string
+		Mac       string
+		Status    string
+		User      users.User
+		UserEmail string
+	}{
+		Title:     "About",
+		User:      user,
+		UserEmail: email,
+		Mac:       mac,
+		Status:    ver,
+	}
+
+	ah.t.ExecuteTemplate(w, "about", &d)
 }
 
 func NewRootHandler(db *database.Database, locale *message.Printer) (*rootHandler, error) {

@@ -1,6 +1,7 @@
 package web
 
 import (
+	"github.com/3hajk/vending_machine/controller/board"
 	"github.com/rivo/users"
 	"golang.org/x/text/message"
 	"html/template"
@@ -39,7 +40,46 @@ func (h *boardViewHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		email = user.GetEmail()
 	}
 
-	h.t.ExecuteTemplate(w, "board_cmd", &Page{Title: "Board Control", User: user, UserEmail: email})
+	outs := board.SensorConfig{
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		1,
+		true,
+		false,
+		false,
+		false,
+		false,
+	}
+
+	serviceMode := false
+	roleId := 3
+	d := struct {
+		Title     template.HTML
+		Outs      *board.SensorConfig
+		Mode      bool
+		User      users.User
+		UserEmail string
+		UserRole  int
+	}{
+		template.HTML("Board Control"),
+		&outs,
+		!serviceMode,
+		user,
+		email,
+		roleId,
+	}
+
+	h.t.ExecuteTemplate(w, "board_cmd", &d)
 }
 
 func (h *boardCmdHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
