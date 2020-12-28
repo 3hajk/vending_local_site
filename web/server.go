@@ -56,7 +56,15 @@ type Context struct {
 	Password             string
 	AuthenticationMethod string
 	Settings             string
-	//Interface            Interface
+	Interface            Interface
+}
+
+type Interface struct {
+	Interface         string `json:"Interface"`
+	Method            string `json:"Method"`
+	Address           string `json:"Address"`
+	Netmask           string `json:"Netmask"`
+	DomainNameServers string `json:"DomainNameServers"`
 }
 
 func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -152,9 +160,20 @@ func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		false,
 	}
 
-	cnx := Context{
-		Name:   "test",
-		Active: false,
+	i := Interface{
+		"ppp0", "ip", "127.0.0.1", "/24", "google",
+	}
+	cnx := &Context{
+		Name:                 "test",
+		Active:               true,
+		Type:                 "",
+		Protocol:             "",
+		AccessPointName:      "",
+		Username:             "user",
+		Password:             "passwd",
+		AuthenticationMethod: "string",
+		Settings:             "",
+		Interface:            i,
 	}
 
 	d := struct {
@@ -184,7 +203,7 @@ func (rh *rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		UserEmail:   email,
 		Date:        time.Now().Format("2006.01.02 15:04"),
 		Outs:        &outs,
-		Modem:       &cnx,
+		Modem:       cnx,
 	}
 	rh.t.ExecuteTemplate(w, "main", d)
 }

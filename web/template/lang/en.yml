@@ -1,0 +1,326 @@
+init_modem: Initialize modem
+start_vending: Starting vending
+fatal_error: Fatal Error
+service_mode: Service Mode!
+error: Error!
+board_error: Please check vending controller connection
+error_co2:  CO2 pressure to low
+error_co2_info: Please recharge CO2 tank
+error_printer: Printer error
+vending_disable:  Vending disable
+status_code10: Set bottle
+status_code20: Filled 0%
+status_code21: 10%% poured
+status_code22: 20%% Poured
+status_code23: 30%% Poured
+status_code24: 40%% Poured
+status_code25: 50%% Poured
+status_code26: 60%% Poured
+status_code27: 70%% Poured
+status_code28: 80%% Poured
+status_code29: 90%% Poured
+status_code30: 100%% Poured
+status_code50: Not Pressure
+status_code60: Start CO2
+status_code70: Start loading
+status_code40: Finish after 3 second
+status_code90: Finish filling
+status_code100: Take the bottle
+status_code200: The device does not work!
+status_code205: Filling system
+status_code210: Filling system
+status_code215: Sanitation is running
+status_code216: Sanitation Complete
+status_code220: Calibration started
+status_code221: Calibration Error!
+status_code222: System Fill
+status_code223: Keg pressure measurement
+status_code224: Power pressure calibration
+status_code2160: I look forward to connecting solution 1
+status_code2161: I look forward to connecting solution 2
+status_code2162: I look forward to connecting solution 3
+status_code2163: I look forward to connecting solution 4
+status_code21003: Check pressure in keg
+status_code21004: Flowmeter calibration
+status_code21005: Sanitise
+status_code21006: Speed 1
+status_code21007: Speed 2
+status_code21008: Speed 3
+status_code21009: Speed 4
+status_code21010: Enable fast volume detect
+status_code21011: Set address 1
+status_code21012: Set address 2
+status_code21013: Set address 3
+status_code21014: Set address 4
+status_code21015: Disable fast volume detect
+status_code21016: Enable presure mode
+status_code21017: Enable time mode
+error_code0:
+error_code400: Bottle volume not determined
+error_code401: The shutter did not rise in 5s
+error_code402: Drain is not working
+error_code403: Bottle with a leak or small volume
+error_code405: The presence of volume is not defined
+error_code406: Volume is full
+error_code407: Volume did not fill in the allotted time
+error_code408: Drainage clogged
+error_code409: Required pressure not set
+error_code410: Pressure during filling dropped below 500 mbar
+error_code411: error411
+error_code412: Product Over
+error_code413: Sanitation failed
+error_code414: Keg pressure is less than 1100 mbar
+error_code415: System pressure is less than 1100 mbar
+error_code416: Pressure sensor not found
+error_code417: Flowmeter error
+error_code421: Calibration failed
+error_code431: Calibration sensor power pressure failed
+error_code681: Calibration failed
+error_code666: System error code 666 
+error_code667: System error code 667
+error_code668: System error code 668
+error_code669: System error code 669
+error_code670: System error code 670
+error_code671: System error code 671
+error_code672: System error code 672
+prn_status0: No error
+prn_status1: No paper (detect sensor RUL)
+prn_status2: Label not found (detect sensor PE)
+prn_status3: Print head raised (detect sensor HEADUP)
+prn_status4: Printed label not removed (detect sensor LAB)
+prn_status5: Overheating of print head(temperature 55C-60C and above)
+prn_status9: Canceled(incomplete printing)
+prn_status10: Empty print buffer
+prn_status11: Unknown print type
+prn_status12: Aborted (system event on USB)
+prn_status13: Wrong length for test print
+enable_shutter: On Shutter Lock
+dissable_shutter: Off Shutter Lock
+pegas_old: Pegas Old
+pegas_new: Pegas New
+enabe_switch: Use Pressure Switch
+dissable_switch: Unuse Pressure Switch
+run_sanitise: Start Sanitice
+run_filling: Start Filling System
+stop_filling: Stop Filling System
+run_check: Start Keg Pressure
+stop_check: Stop Keg Pressure
+enable_filling: Enable Filling Button
+dissable_filling: Disable Filling Button
+enable_interrupt: Enable Interrupt Filling
+dissable_interrupt: Disable Interrupt Filling
+detect_slow: Detect Volume
+detect_fast: Detect Volume Fast
+enable_detect_fast: Enable Fast Detect Volume
+dissable_detect_fast: Disable Fast Detect Volume
+enable_pressure: Enable Pressure Filling
+enable_timer: Enable Timer Filling
+title: Vending Machine App
+main: Main
+board_commands: Board Commands
+extended_material: Extent Material
+board_setup: Board Setup
+printer_setup: Printer Setup
+modem_setup: Modem Setup
+media_setup: Media Setup
+system_setup: System Setup
+about: About
+not_service_mode: Board is not in service mode
+current_time: Current time
+board_config: Board config
+set: Set
+clamp: Clamp
+drainage: Drainage
+pressure: Pressure
+water: Water
+co2: СО2
+lock: Lock
+product: Product
+reed_switch: ReedSwitch
+pressure_switch: Pressure Switch
+current_temperature: Current Temperature
+current_impulses: Current Impulses
+current_pressure: Current Pressure
+current_volume: Current Volume
+keg_pressure: Keg Pressure
+error_msg: Error Message
+status: Status
+shutter_status: Shutter Status
+pegas: Pegas
+temperature_sensor: Temperature sensor
+switch_pressure_status: Switch Pressure Status
+preset_mode: Preset Mode
+calibration_filling: Calibration Filling
+filling_button: Filling Button
+firmware_version: Firmware Version
+check_pressure_mode: Vheck Pressure Mode
+power_pressure_sensor: Vower Pressure Sensor
+limit_power_pressure_sensor: Limit Power Pressure Sensor
+mbar: mBar
+fast: Fast
+slow: Slow
+enable: Enable
+disable: Disable
+ml: mL
+expend_material: Expend Material
+printer_status: Printer Status
+modem_status: Modem Status
+filling_log: Fill Status Log
+bottle_05: Bottle 0.5 l
+bottle_10: Bottle 1.0 l
+bottle_15: Bottle 1.5 l
+bottle_20: Bottle 2.0 l
+labels: Labels
+product_residue: Product Residue
+last_update: Updated
+darkness: Darkness
+PE_sensor:  PE sensor voltage
+PE_sensor2:  PE sensor voltage
+LAB_sensor:  LAB sensor voltage
+head_temperature:  Head temperature
+RUL_sensor:  RUL sensor voltage
+RUL_sensor2:  RUL sensor voltage
+volt: V
+active: Active
+inactive: Non Connected
+apn:  AccessPointName
+user_name:  Username
+passwd:  Password
+interface:  Interface
+address:  IP Address
+dns:  Domain Name Servers
+co2_status: CO2Status
+co2_pressure: CO2Pressure
+detected_volume: Detected Volume
+flow_meter_pulse: Flowmeter Pulses
+temperature: Temperature
+success: Success
+error_code: ErrorCode
+update: Update
+save: Save
+keg: Keg
+modem_config: Modem Config
+printer_config: Printer Config
+print_label_05: Test print label 0,5 liter
+print_label_10: Test print label 1 liter
+print_label_15: Test print label 1,5 liters
+print_label_20: Test print label 2 liters
+update_label: Update Label
+schedule: Schedule
+proto: Proto
+imei: IMEI
+notify_group: Notification Group ID
+verify_params: Verify parameters
+lang: Language
+board_id: BoardId
+load: Load
+mode_1: Preset settings 1
+mode_2: Preset settings 2
+mode_3: Preset settings 3
+mode_4: Preset settings 4
+default_preset: Set Default Preset
+load_preset:  Load Defaults Preset
+volume_05: Volume 0.5 liters
+volume_10: Volume 1.0 liter
+volume_15: Volume 1.5 liters
+volume_20: Volume 2.0 liters
+impulse: Impulse
+start_pressure: Start Pressure
+drain_time: Drain Time
+cycle_switch: Time Cycles Switch
+max_time: Max Time Filling
+release_period: Time Release Period
+release_duration: Time Release Duration
+keg_pressure_delta: Keg Pressure Delta
+pressure_sensor_limit: Pressure Sensor Limit
+volume_detect_setup: Volume Detect Setup
+tare_min_pressure: Tare Min Pressure
+tare_detection_time: Tare Detection Time
+tare_max_pressure: Tare Max Pressure
+tare_pressure_delta: Tare Pressure Delta
+min: Min
+max: Max
+limit: Limit
+sanitise_setup: Sanitise Setup
+detergent: CleaningDetergent
+param_update: Params Updated
+print_label: Test Print Label
+start_time: Start
+end_time: End
+warning_expends: Warning botle %%.1f  %%d
+warning_labels: Warning labels  %%d
+warning_product: Warning product %%d
+warning_expends_static: Warning botle %%.1f coming to an end.
+warning_labels_static: Warning labels coming to an end.
+warning_product_static: Warning product coming to an end.
+error_expends: Error! Bottle %%.1f is over
+error_labels: Error! Labels is over
+error_product: Error! Product is over
+scheduler: Work time is %%02d:%%02d - %%02d:%%02d
+expends_limit_set: Warning tare
+labels_limit_set: Warning labels
+product_limit_set: Warning product
+pressure_co2_low: CO2 pressure to low
+rewind: Rewind
+reboot: System Reboot
+time: Current Time
+date: Current Date
+printer_not_init: Printer not found
+online_parameters: Online Parametes
+last_vending_error: Last Vending Error
+logged_in_as: Logged in as
+log_out: Log out
+log_in: Log in
+access_denied: Access Denied
+version: Current Application Version
+expent_notify: Notify About Expend Materials
+yes: Yes
+no: No
+printer_state: Printer State
+label_detect: Label Detect
+label_printed: Label Printed
+label_positioned: Label Positioned
+headup_state: HeadUp State
+print_duplicate: Print Dublicate
+label_type: Label Type
+label_check: Label Check
+memory_test_filed: Memmory Test
+watchdog_restarting: Printer watchdog restarting after error
+pe_sensor_state: PE Sensor State
+seted: Seted
+not_set: Not Set
+printed: Prinded
+no_printed: Not Printed
+raised: Head Raised
+ok: Ok
+available: Available
+unavailable: Unavailable
+ribbon: Ribbon
+label: Label
+successed: Successed
+void: Substrate Or Void
+power_supply: Power Supply
+power_normal: Normal
+power_low: Power to low
+not_connect: Not Connect
+disable_check_label: Disable Check Label
+enable_check_label: Enable Check Label
+reboot_printer: Reboot Printer
+liter:  l.
+init_msg: Generate messages
+run_flushing_system: Start Flushing System
+service_mod_on: ServiceMode On
+service_mod_off: ServiceMode Off
+label_preview: Label displayed as received from site
+preview_label_05: Preview label 0,5 l.
+preview_label_10: Preview label 1,0 l.
+preview_label_15: Preview label 1,5 l.
+preview_label_20: Preview label 2,0 l.
+mac: MAC address
+filling_mode: Filling Mode
+filling_pressure: Pressure Filling
+filling_timer: Timer Filling
+not_support: Not Supported
+temperature_max_set: Set Max Temperature of Product
+temperature_control: Wait for the Product to cool down.
+board_watchdog: Reboot by Watchdog

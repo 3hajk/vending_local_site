@@ -37,7 +37,7 @@ func main() {
 
 	lang := db.GetVendingParamByName("lang")
 	if len(lang) < 2 {
-		lang = "en"
+		lang = "ua"
 	}
 	locale := translation.GetLocale(lang)
 

@@ -1,0 +1,326 @@
+init_modem: Запуск модема
+start_vending: Запуск вендинга
+fatal_error: Авария
+service_mode: Сервисный режим!
+error: Ошибка!
+board_error: Проверьте подключение контроллера налива
+error_co2:  Низкое давление CO2
+error_co2_info: Баллон с углекислотой пуст,замените
+error_printer: Ошибка принтера
+vending_disable: Работа остановлена
+status_code10: Установите бутылку
+status_code20: Налито 0%%
+status_code21: Налито 10%%
+status_code22: Налито 20%%
+status_code23: Налито 30%%
+status_code24: Налито 40%%
+status_code25: Налито 50%%
+status_code26: Налито 60%%
+status_code27: Налито 70%%
+status_code28: Налито 80%%
+status_code29: Налито 90%%
+status_code30: Налито 100%%
+status_code50: Нет давления
+status_code60: Старт СО2
+status_code70: Старт налива
+status_code40: Ожидание 3 секунды
+status_code90: Завершено
+status_code100: Заберите бутылку
+status_code200: Устройство не работает!
+status_code205: Заполнение системы
+status_code210: Заполнение системы
+status_code215: Санитация запущена
+status_code216: Санитация завершена
+status_code220: Старт калибровки
+status_code221: Ошибка калибровки!
+status_code222: Система заполнена
+status_code223: Замер давления в кеге
+status_code224: Каллибровка датчика давления питания
+status_code2160: Бутылка обнаружена. Продолжить
+status_code2161: Раствор 1 пролит по системе. Продолжить
+status_code2162: Раствор 2 подключен. Продолжить
+status_code2163: Раствор 2 пролит по системе. Продолжить
+status_code21003: Замер давления в кеге
+status_code21004: Калибровка расходомера
+status_code21005: Санитация
+status_code21006: Скорость 1
+status_code21007: Скорость 2
+status_code21008: Скорость 3
+status_code21009: Скорость 4
+status_code21010: Включить быстрый способ измерения объёма
+status_code21011: Присвоить адрес окна 1
+status_code21012: Присвоить адрес окна 2
+status_code21013: Присвоить адрес окна 3
+status_code21014: Присвоить адрес окна 4
+status_code21015: Выключить быстрый способ измерения объёма
+status_code21016: Включить режим налива по давлению
+status_code21017: Включить режим налива по времени(ШИМ)
+error_code0:
+error_code400: Объём бутылки не определен
+error_code401: Шторка не поднялась за 5с
+error_code402: Дренаж не работает
+error_code403: Бутылка с утечкой или слишком маленького объёма
+error_code405: Наличие объёма не определено
+error_code406: Объём заполнен
+error_code407: Объём не заполнился за определенное время
+error_code408: Дренаж забился
+error_code409: Необходимое давление не установлено
+error_code410: Давление упало ниже 500 мБар
+error_code411: Неизвестная ошибка код 411
+error_code412: Расходомер указал что продукт закончился
+error_code413: Санитация не выполнена
+error_code414: Неизвестная ошибка код 414
+error_code415: Давление в системе меньше 1100 мБар
+error_code416: Датчик давления не найден
+error_code417: Ошибка расходомера
+error_code421: Ошибка калибровки
+error_code431: Ошибка калибровки датчика давления питания
+error_code681: Калибровка не удачна
+error_code666: Системный сбой код 666
+error_code667: Системный сбой код 667
+error_code668: Системный сбой код 668
+error_code669: Системный сбой код 669
+error_code670: Системный сбой код 670
+error_code671: Системный сбой код 671
+error_code672: Системный сбой код 672
+prn_status0: Нет ошибок
+prn_status1: Закончилась бумага (датчик RUL)
+prn_status2: Этикетна не найдена (датчик PE)
+prn_status3: Поднята печатающая головка (датчик HEADUP)
+prn_status4: Напечатанная этикетка не снята (датчик LAB)
+prn_status5: Печатающая головка перегрелась (температура 55C-60C и выше)
+prn_status9: Отменено (незавершенная печать)
+prn_status10: Буфер принтера пуст
+prn_status11: Неизвестный тип печати
+prn_status12: Отменено (системное событие по USB)
+prn_status13: Неправильная длина тестовой печати
+enable_shutter: Включить шторку
+dissable_shutter: Выключить шторку
+pegas_old: Старый пегас
+pegas_new: Новый пегас
+enabe_switch: Реле включить
+dissable_switch: Реле выключить
+run_sanitise: Санитация
+run_filling: Заполнить систему
+stop_filling: Остановить заполнение
+run_check: Измерить давление в кеге
+stop_check: Остановить измерение давления
+enable_filling: Включить налив
+dissable_filling: Отключить налив
+enable_interrupt: Включить прерывание налива по кнопке
+dissable_interrupt: Отключить прерывание налива по кнопке
+detect_slow: Определить объём медленно
+detect_fast: Определить объём быстро
+enable_detect_fast: Включить быстрый способ измерения объёма
+dissable_detect_fast: Включить медленный способ измерения объёма
+enable_pressure: Включить режим налива по давлению
+enable_timer: Включить режим налива по времени(ШИМ)
+title: Вендинговая машина
+main: Главная
+board_commands: Команды
+extended_material: Расходные материалы
+board_setup: Настройки налива
+printer_setup: Настройки принтера
+modem_setup: Настройки модема
+media_setup: Настройки мультимедиа
+system_setup: Настройки системы
+about: О приложении
+not_service_mode: Контролер налива не переведен в сервисный режим
+current_time: Текущее время
+board_config: Контроллер налива
+set: Применить
+clamp: Прижим
+drainage: Дренаж
+pressure: Давление
+water: Вода
+co2: СО2
+lock: Шторка
+product: Продукт
+reed_switch: Геркон
+pressure_switch: Реле давления
+current_temperature: Температура онлайн
+current_impulses: Импульсы онлайн
+current_pressure: Давление онлайн
+current_volume: Объём онлайн
+keg_pressure: Давление в кеге
+error_msg: Ошибка
+status: Статус
+shutter_status: Состояние шторки
+pegas: Пегас
+temperature_sensor: Датчик температуры
+switch_pressure_status: Состояние датчика давления
+preset_mode: Режим предустановки
+calibration_filling: Калибровка налива
+filling_button: Кнопка налива
+firmware_version: Версия прошивки
+check_pressure_mode: Режим проверки давления
+power_pressure_sensor: Датчик питающего давления
+limit_power_pressure_sensor: Лимит датчика питающего давления
+mbar: мБар
+fast: Быстро
+slow: Медленно
+enable: Включено
+disable: Выключено
+ml: мЛ
+expend_material: Расходные материалы
+printer_status: Состояние принтера
+modem_status: Состояние модема
+filling_log: История последних операций налива
+bottle_05: Бутылка 0,5 литра
+bottle_10: Бутылка 1 литр
+bottle_15: Бутылка 1,5 литра
+bottle_20: Бутылка 2 литра
+labels: Этикетки
+product_residue: Остаток продукта
+last_update: Последнее обновление
+darkness: Контрастность
+PE_sensor: Напряжение датчика PE(рекомендуемое значение 4.2В)
+PE_sensor2 : Напряжение датчика PE
+LAB_sensor: Напряжение датчика LAB(рекомендуемое значение должно быть в пределах 0 - 1.5В)
+head_temperature:  Температура печатающей головки
+RUL_sensor: Напряжение датчика RUL(рекомендуемое значение 0.9В)
+RUL_sensor2: Напряжение датчика RUL
+volt: В
+active: Подключен
+inactive: Подключение отсутствует
+apn: Точка входа
+user_name: Пользователь
+passwd: Пароль
+interface: Интерфейс
+address: IP аддрес
+dns: Сревер доменных имен
+co2_status: Наличие CO2
+co2_pressure: Давление CO2
+detected_volume: Определенный объём
+flow_meter_pulse: Импульсы расходомера
+temperature: Температура
+success: Состояние
+error_code: Код ошибки
+update: Завершено
+save: Сохранить
+keg: Кега
+modem_config: Настройка модема
+printer_config: Настройка Принтера
+print_label_05: Тестовая печать этикетки 0,5 литра
+print_label_10: Тестовая печать этикетки 1 литра
+print_label_15: Тестовая печать этикетки 1,5 литра
+print_label_20: Тестовая печать этикетки 2 литра
+update_label: Обновить этикетки
+schedule: Расписание работы
+proto: Proto
+imei: IMEI
+notify_group: Группа для уведомлений
+verify_params: Проверять лимиты настроек
+lang: Язык
+board_id: Адрес платы налива
+load: Получить
+mode_1: Режим 1
+mode_2: Режим 2
+mode_3: Режим 3
+mode_4: Режим 4
+default_preset: Заводской режим
+load_preset:  Сохранить заводской режим
+volume_05: Объем 0.5 л.
+volume_10: Объем 1.0 л.
+volume_15: Объем 1.5 л.
+volume_20: Объем 2.0 л.
+impulse: Импульсы
+start_pressure: Начальное давление
+drain_time: Время открытия
+cycle_switch: Переключение циклов
+max_time: Макс. время налива
+release_period: Цикл сброса после налива
+release_duration: Время открытия после налива
+keg_pressure_delta: Дельта давления кеги
+pressure_sensor_limit: Пороговое значение для питающего давления
+volume_detect_setup: Настройки определения объема
+tare_min_pressure: Давление наличия объема
+tare_detection_time: Время определения тары
+tare_max_pressure: Давление при определении объема
+tare_pressure_delta: Дельта пределов
+min: Минимум
+max: Масимум
+limit: Лимит
+sanitise_setup: Настройки санитации
+detergent: Раствор
+param_update: Параметр обновлен
+print_label: Этикетка отправлена на печать
+start_time: Начало работы
+end_time: Конец работы
+warning_expends: Предупреждение! Tары %%.1f л. осталось %%d
+warning_labels: Предупреждение! Этикеток осталось %%d
+warning_product: Предупреждение! Продукта осталось %%d мЛ
+warning_expends_static: Предупреждение! Tара %%.1f л. заканчивается.
+warning_labels_static: Предупреждение! Этикетки заканчиваются.
+warning_product_static: Предупреждение! Продукт заканчивается.
+error_expends: Закончилась тара %%.1f л.
+error_labels: Закончилась чековая лента, замените.
+error_product: Закончился продукт, замените кегу.
+scheduler: Рабочее время с %%2d:%%02d по %%02d:%%02d
+expends_limit_set: Предупреждение остаток тары
+labels_limit_set: Предупреждение остаток этикеток
+product_limit_set: Предупреждение остаток продукта
+pressure_co2_low: Баллон с углекислотой пуст
+rewind: Промотка
+reboot: Перезагрузка системы
+time: Текущее время
+date: Текущая дата
+printer_not_init: Принтер не найден
+online_parameters: Текущие параметры
+last_vending_error: Последние ошибки налива
+logged_in_as: Авторизован как
+log_out: Выход
+log_in: Вход
+access_denied: Не достаточно прав для просмотра
+version: Текущая версия приложения
+expent_notify: Предупреждать о остатках расходних материалов?
+yes: Дa
+no: Нет
+printer_state: Состояние принтера
+label_detect: Наличие ленты
+label_printed: Наличие напечатанной этикетки
+label_positioned: Этикетка спозиционирована
+headup_state: Состояние печатающей головки
+print_duplicate: Печать дубликата
+label_type: Тип печати
+label_check: Проверять напечатанную этикетку
+memory_test_filed: Результат проведения теста памяти
+watchdog_restarting: Принтер перезапущен по сторожевому таймеру
+pe_sensor_state: Состояние датчика PE
+seted: Установлена
+not_set: Не установлена
+printed: Да
+no_printed: Нет
+raised: Поднята. Нерабочее положение
+ok: Ok
+available: Доступно
+unavailable: Не доступно
+ribbon: Лента
+label: Этикетка
+successed: Успешно
+void: Подложка или пустота
+power_supply: Источник питания
+power_normal: Норма
+power_low: Низкое напряжение
+not_connect: Не подключен
+disable_check_label: Не проверять наличие этиктки
+enable_check_label: Проверять наличие этиктки
+reboot_printer: Перегрузить принтер
+liter:  л.
+init_msg: Генерация сообщений
+run_flushing_system: Выполнить промывку
+service_mod_on: Включить сервисный режим
+service_mod_off: Выключить сервисный режим
+label_preview: Этикетка отображается в том виде в котором получена с сайта
+preview_label_05: Просмотр этикетки 0,5 л.
+preview_label_10: Просмотр этикетки 1,0 л.
+preview_label_15: Просмотр этикетки 1,5 л.
+preview_label_20: Просмотр этикетки 2,0 л.
+mac: MAC адрес
+filling_mode: Pежим налива
+filling_pressure: По давлению
+filling_timer: По времени(ШИМ)
+not_support: Не поддеживается
+temperature_max_set: Максимальная температура продукта
+temperature_control: Ожидайте, продукт охлаждается.
+board_watchdog: Перегрузка по стророжевому таймеру

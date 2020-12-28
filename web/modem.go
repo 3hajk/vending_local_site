@@ -13,6 +13,17 @@ type modemHandler struct {
 	t  *template.Template
 }
 
+type Modem struct {
+	Apn    string
+	User   string
+	Passwd string
+}
+
+type Wifi struct {
+	Ssid   string
+	Passwd string
+}
+
 func NewModemHandler(db *database.Database, locale *message.Printer) *modemHandler {
 	h := modemHandler{}
 	h.db = db
@@ -32,5 +43,62 @@ func (h *modemHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Redirect(w, r, users.Config.RouteLogIn, 302)
 	}
-	h.t.ExecuteTemplate(w, "modem", &Page{Title: "Modem", UserEmail: email, User: user})
+
+	apn := h.db.GetVendingParamByName("apn")
+	modemUser := h.db.GetVendingParamByName("user")
+	passwd := h.db.GetVendingParamByName("passwd")
+
+	ssid := h.db.GetVendingParamByName("ssid")
+	secret := h.db.GetVendingParamByName("secret")
+
+	mode := false
+
+	i := Interface{
+		"ppp0", "ip", "127.0.0.1", "/24", "google",
+	}
+	cnx := &Context{
+		Name:                 "test",
+		Active:               true,
+		Type:                 "",
+		Protocol:             "",
+		AccessPointName:      "",
+		Username:             "user",
+		Password:             "passwd",
+		AuthenticationMethod: "string",
+		Settings:             "",
+		Interface:            i,
+	}
+	modem := &Modem{
+		apn,
+		modemUser,
+		passwd,
+	}
+
+	wifi := &Wifi{
+		ssid,
+		secret,
+	}
+
+	roleId := 3
+	d := struct {
+		Title        string
+		Mode         bool
+		Modem        *Modem
+		Wifi         *Wifi
+		ModemContext *Context
+		User         users.User
+		UserEmail    string
+		UserRole     int
+	}{
+		Title:        "Modem",
+		Mode:         !mode,
+		Modem:        modem,
+		Wifi:         wifi,
+		ModemContext: cnx,
+		User:         user,
+		UserEmail:    email,
+		UserRole:     roleId,
+	}
+
+	h.t.ExecuteTemplate(w, "modem", &d)
 }

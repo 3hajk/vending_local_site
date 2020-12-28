@@ -1,0 +1,326 @@
+init_modem: Запуск модему
+start_vending: Запуск вендінгу
+fatal_error: Аварія
+service_mode: Сервісний режим!
+error: Помилка!
+board_error: Перевірте підключення контролера наливу
+error_co2: Низький тиск CO2
+error_co2_info: Замініть балон CO2
+error_printer: Помилка принтера
+vending_disable: Робота зупинена
+status_code10: Встановіть пляшку
+status_code20: налито 0 %%
+status_code21: налито 10 %%
+status_code22: налито 20 %%
+status_code23: налито 30 %%
+status_code24: налито 40 %%
+status_code25: налито 50 %%
+status_code26: налито 60 %%
+status_code27: налито 70 %%
+status_code28: налито 80 %%
+status_code29: налито 90 %%
+status_code30: налито 100 %%
+status_code50: Немає тиску
+status_code60: Старт СО2
+status_code70: Старт наливу
+status_code40: Очікування 3 секунди
+status_code90: Завершено
+status_code100: Заберіть пляшку
+status_code200: Пристрій не працює!
+status_code205: Заповнення системи
+status_code210: Заповнення системи
+status_code215: Санітація запущена
+status_code216: Санітація завершена
+status_code220: Старт калібрування
+status_code221: Помилка калібрування!
+status_code222: Система заповнена
+status_code223: Замір тиску в кезi
+status_code224: Калібрування датчика тиску живлення
+status_code2160: Пляшка виявлена. продовжити
+status_code2161: Розчин 1 пролито по системі. продовжити
+status_code2162: Розчин 2 підключений. продовжити
+status_code2163: Розчин 2 пролито по системі. продовжити
+status_code21003: Замір тиску в кезi
+status_code21004: Калібрування витратоміра
+status_code21005: Санітація
+status_code21006: Швидкість 1
+status_code21007: Швидкість 2
+status_code21008: Швидкість 3
+status_code21009: Швидкість 4
+status_code21010: Включити швидкий спосіб вимірювання об'єму
+status_code21011: Присвоїти адресу вікна 1
+status_code21012: Присвоїти адресу вікна 2
+status_code21013: Присвоїти адресу вікна 3
+status_code21014: Присвоїти адресу вікна 4
+status_code21015: Вимкнути швидкий спосіб вимірювання об'єму
+status_code21016: Включити режим наливу по тиску
+status_code21017: Включити режим наливу за часом (ШІМ)
+error_code0:
+error_code400: Об'єм пляшки не визначений
+error_code401: Шторка не піднялася за 5 с
+error_code402: Дренаж не працює
+error_code403: Пляшка з витоком або занадто маленького об'єму
+error_code405: Наявність об'єму не визначено
+error_code406: Об'єм заповнений
+error_code407: Об'єм не заповнений за певний час
+error_code408: Дренаж забився
+error_code409: Необхідний тиск не встановлено
+error_code410: Тиск впав нижче 500 мбар
+error_code411: Невідома помилка код 411
+error_code412: Регулятор потоку вказав що продукт закінчився
+error_code413: Санітацію не виконано
+error_code414: Невідома помилка код 414
+error_code415: Тиск в системі менше 1100 мбар
+error_code416: Датчик тиску не знайдений
+error_code417: Помилка витратоміра
+error_code421: Помилка калібрування
+error_code431: Помилка калібрування датчика тиску живлення
+error_code681: Невдале калібрування
+error_code666: Системний збій код 666
+error_code667: Системний збій код 667
+error_code668: Системний збій код 668
+error_code669: Системний збій код 669
+error_code670: Системний збій код 670
+error_code671: Системний збій код 671
+error_code672: Системний збій код 672
+prn_status0: Немає помилок
+prn_status1: Відсутність паперу (датчик RUL)
+prn_status2: Етикетку не знайдено (датчик PE)
+prn_status3: Піднята друкуюча головка (датчик HEADUP)
+prn_status4: Надрукована етикетка не знята (датчик LAB)
+prn_status5: Друкацька головка перегрілася (температура 55C-60C і вище)
+prn_status9: Скасовано (незавершений друк)
+prn_status10: Буфер принтера порожній
+prn_status11: Невідомий тип друку
+prn_status12: Скасовано (системна подія по USB)
+prn_status13: Неправильна довжина тестового друку
+enable_shutter: Ввiмкнути шторку
+dissable_shutter: Вимкнути шторку
+pegas_old: Старий пегас
+pegas_new: Новий пегас
+enabe_switch: Реле ввiмкнути
+dissable_switch: Реле вимкнути
+run_sanitise: Санітація
+run_filling: Заповнити систему
+stop_filling: Зупинити заповнення
+run_check: Виміряти тиск в кезi
+stop_check: Зупинити вимірювання тиску
+enable_filling: Включити налив
+dissable_filling: Відключити налив
+enable_interrupt: Включити переривання наливу по кнопці
+dissable_interrupt: Відключити переривання наливу по кнопці
+detect_slow: Визначити об'єм повільно
+detect_fast: Визначити об'єм швидко
+enable_detect_fast: Включити швидкий спосіб визначення об'єму
+dissable_detect_fast: Включити повільний спосіб визначення об'єму
+enable_pressure: Включити режим наливу по тиску
+enable_timer: Включити режим наливу за часом (ШІМ)
+title: Вендингова машина
+main: Головна
+board_commands: Команди
+extended_material: Витратні матеріали
+board_setup: Налаштування наливу
+printer_setup: Налаштування принтера
+modem_setup: Налаштування модему
+media_setup: Налаштування мультимедіа
+system_setup: Налаштування системи
+about: Про програму
+not_service_mode: Контролер наливу не переведений у сервicний режим
+current_time: Поточний час
+board_config: Контроллер наливу
+set: Встановити
+clamp: Притиск
+drainage: Дренаж
+pressure: Тиск
+water: Вода
+co2: СО2
+lock: Шторка
+product: Продукт
+reed_switch: Геркон
+pressure_switch: Реле тиску
+current_temperature: Температура онлайн
+current_impulses: Імпульси онлайн
+current_pressure: Тиск онлайн
+current_volume: Обсяг онлайн
+keg_pressure: Тиск в кезi
+error_msg: Помилка
+status: Статус
+shutter_status: Стан шторки
+pegas: Пегас
+temperature_sensor: Датчик температури
+switch_pressure_status: Стан датчика тиску
+preset_mode: Режим попереднього встановлення
+calibration_filling: Калібрування наливу
+filling_button: Кнопка наливу
+firmware_version: Версія прошивки
+check_pressure_mode: Режим перевірки тиску
+power_pressure_sensor: Датчик живлячого тиску
+limit_power_pressure_sensor: Ліміт датчика живлячого тиску
+mbar: мБар
+fast: Швидко
+slow: Повільно
+enable: Включено
+disable: Виключено
+ml: мл
+expend_material: Витратні матеріали
+printer_status: Стан принтера
+modem_status: Стан модему
+filling_log: Історія останніх операцій наливу
+bottle_05: Пляшка 0,5 літра
+bottle_10: Пляшка 1 літр
+bottle_15: Пляшка 1,5 літра
+bottle_20: Пляшка 2 літри
+labels: Етикетки
+product_residue: Залишок продукту
+last_update: Останнє оновлення
+darkness: Контрастність
+PE_sensor: Напруга датчика PE(0.9В)
+PE_sensor2: Напруга датчика PE
+LAB_sensor: Напруга датчика LAB
+head_temperature: Температура друкуючої головки
+RUL_sensor: Напруга датчика RUL(4.2В)
+RUL_sensor2: Напруга датчика RUL
+volt: В
+active: Підключений
+inactive: Підключення відсутнє
+apn: Точка входу
+user_name: Користувач
+passwd: Пароль
+interface: Інтерфейс
+address: IP адрес
+dns: Сервер доменних імен
+co2_status: Наявність CO2
+co2_pressure: Тиск CO2
+detected_volume: Детектований об'єм
+flow_meter_pulse: Імпульси витратоміра
+temperature: Температура
+success: Стан
+error_code: Код помилки
+update: Завершено
+save: Зберегти
+keg: Кега
+modem_config: Налаштування модему
+printer_config: Налаштування принтера
+print_label_05: Тестовий друк етикетки 0,5 літра
+print_label_10: Тестовий друк етикетки 1 літра
+print_label_15: Тестовий друк етикетки 1,5 літра
+print_label_20: Тестовий друк етикетки 2 літри
+update_label: Оновити етикетки
+schedule: Розклад роботи
+proto: Proto
+imei: IMEI
+notify_group: Група для повідомлень
+verify_params: Перевіряти ліміти налаштувань
+lang: Мова
+board_id: Адреса плати наливу
+load: Отримати
+mode_1: Режим 1
+mode_2: Режим 2
+mode_3: Режим 3
+mode_4: Режим 4
+default_preset: Заводський режим
+load_preset: Зберегти заводський режим
+volume_05: Обсяг 0.5 л.
+volume_10: Обсяг 1.0 л.
+volume_15: Обсяг 1.5 л.
+volume_20: Обсяг 2.0 л.
+impulse: Імпульси
+start_pressure: Початковий тиск
+drain_time: Час відкриття
+cycle_switch: Перемикання циклів
+max_time: Макс. час наливу
+release_period: Цикл скидання після наливу
+release_duration: Час відкриття після наливу
+keg_pressure_delta: Дельта тиску кеги
+pressure_sensor_limit: Граничне значення для живильного тиску
+volume_detect_setup: Налаштування визначення тари
+tare_min_pressure: Тиск наявності тари
+tare_detection_time: Час визначення тари
+tare_max_pressure: Тиск при визначенні тари
+tare_pressure_delta: Дельта меж
+min: Мінімум
+max: Максимум
+limit: Ліміт
+sanitise_setup: Налаштування санітації
+detergent: Розчин
+param_update: Параметр оновлений
+print_label: Етикетка відправлена на друк
+start_time: Початок роботи
+end_time: Кінець роботи
+warning_expends: Попередження! Залишок тари %%.1f  %%d
+warning_labels: Попередження! Залишок етикеток %%d
+warning_product: Попередження! Залишок продукту %%.1f
+warning_expends_static: Попередження! Тара %%.1f добігає кінця
+warning_labels_static: Попередження! Етикетки добігають кінця
+warning_product_static: Попередження! Продукт добігає кінця
+error_expends: Закінчилася тара %%.1f л.
+error_labels: Закінчилися етикетки %%d.
+error_product: Закінчився продукт.
+scheduler: Робочі години з %%02d:%%02d по %%02d:%%02d
+expends_limit_set: Попередження залишок тари
+labels_limit_set: Попередження залишок етикеток
+product_limit_set: Попередження залишок продукту
+pressure_co2_low: Балон з вуглекислотою порожній
+rewind: Промотка
+reboot: Перезавантаження системи
+time: Поточний час
+date: Поточна дата
+printer_not_init: Принтер не знайдений
+online_parameters: Поточні параметри
+last_vending_error: Останні помилки наливу
+logged_in_as: Авторизований як
+log_out: Вийти
+log_in: Увійти
+access_denied: Доступ заборонено
+version: Поточна версія програми
+expent_notify: Попередження про залишок витратних матеріалів
+yes: Дa
+no: Нет
+printer_state: Стан принтера
+label_detect: Наявність стрічки
+label_printed: Наявність надрукованій етикетки
+label_positioned: Етикетка позиційований
+headup_state: Стан друкуючої головки
+print_duplicate: Друк дубліката
+label_type: Тип друку
+label_check: Перевіряти надруковану етикетку
+memory_test_filed: Результат проведення тесту пам'яті
+watchdog_restarting: Принтер перезапущений по сторожовому таймеру
+pe_sensor_state: Стан датчика PE
+seted: Встановлено
+not_set: Чи не встановлена
+printed: Так
+no_printed: Немає
+raised: Піднята. Сьогодні вихідний стан
+ok: Ok
+available: Доступно
+unavailable: Не доступно
+ribbon: Стрічка
+label: Етикетка
+successed: Успішно
+void: Підкладка або порожнеча
+power_supply: Джерело живлення
+power_normal: Норма
+power_low: Низька напруга!
+not_connect: Не Підключен
+disable_check_label: Не перевіряти наявність екеткі
+enable_check_label: Перевіряти наявність етікткі
+reboot_printer: Перезавантажити принтер
+liter:  л.
+init_msg: Генерація повідомлень
+run_flushing_system: Виконати промивання
+service_mod_on: Ввімкнути сервісний режим
+service_mod_off: Вимкнути сервісний режим
+label_preview: Етикетка відображається в тому вигляді в якому отримана з сайту
+preview_label_05: Перегляд етикетки 0,5 л.
+preview_label_10: Перегляд етикетки 1,0 л.
+preview_label_15: Перегляд етикетки 1,5 л.
+preview_label_20: Перегляд етикетки 2,0 л.
+mac: MAC адреса
+filling_mode: Pежим наливу
+filling_pressure: За тиском
+filling_timer: За часом (ШІМ)
+not_support: Не підтримується
+temperature_max_set: Максимальна температура продукту
+temperature_control: Чекайте, продукт охолоджується.
+board_watchdog: Перезавантаження по стророжевому таймеру
